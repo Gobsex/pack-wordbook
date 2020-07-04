@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:text-decoration="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Home</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css" th:href="@{/css/style.css}" >
+<!--    <link href='https://css.gg/add-r.css' rel='stylesheet'>-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/c0c3d5a6d0.js" crossorigin="anonymous"></script>
+
+    <link th:insert="index::style">
+</head>
+    <div th:insert="index::header"/>
+    <br>
+    <div class="tab-container">
+        <a href="/pack/all" class="link" ><div th:class="${isAll} ? tab-selected:tab">Favorite</div></a>
+        <a href="/pack/private" class="link" ><div th:class="${isPrivate} ? tab-selected:tab">Private</div></a>
+        <a href="/pack/public" class="link"><div th:class="${isPublic} ? tab-selected:tab">Public</div></a>
+        <div></div>
+        <div><a href="/pack/add" class="fas fa-plus-square" style="font-size: 35px; color: #676767; text-decoration: none;" ;
+        ></a></div>
+
+    </div>
+    <div class="container"  >
+        <div class="pack-container" th:each="pack:${packs}">
+            <div class="pack-logo"><a th:href="${pack.id}" class="fa fa-eye" style="font-size:20px;color: #e0e0e0; text-decoration: none;"></a></div>
+            <div class="pack-content" >
+                <h2 th:text="${pack.name}"/>
+                <p th:text="${pack.description}"/>
+            </div>
+        </div>
+    </div>
+<br>
+

@@ -7,8 +7,8 @@
 </head>
 <body>
     <div th:insert="index::header"/>
-    <div >
-        <h1 style="text-align:center" class="masthead-brand">Home Page</h1>
+    <h1 style="text-align:center" class="masthead-brand">Search Page</h1>
+    <div th:each="pack:${publicPacks}" >
+        <p th:text="${pack.name}"/>
     </div>
 </body>
-</html>
