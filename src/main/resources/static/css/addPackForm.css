@@ -3,11 +3,11 @@
     padding: 32px;
     margin: auto;
     margin-top: 30px;
-
-    border-radius: 12px;
-    box-shadow: 0 4px 16px #cccccc;
     font-family: sans-serif;
     letter-spacing: 1px;
+    font-size: 16px;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px #cccccc;
     justify-items: center;
     justify-content: center;
 }
@@ -35,8 +35,11 @@
     transition: 0.3s;
 }
 .form_textarea{
+    font-family: sans-serif;
+    letter-spacing: 1px;
+    font-size: 16px;
     width: 100%;
-    padding: 0 0 10px 0;
+    padding: 7px 0px 10px 0px;
     border-radius: 7px;
     border: 1px solid #e0e0e0;
     outline: none;
@@ -64,4 +67,112 @@
 .form_button:focus,
 .form_button:hover{
     background-color: rgba(48, 254, 74, 0.64);
+}
+/* The container */
+.radio-area{
+    margin-left: 20px;
+}
+.radio-container {
+    text-align: center;
+    position: relative;
+    padding-left: 24px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.radio-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #eee;
+    border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.radio-container:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.radio-container input:checked ~ .checkmark {
+    background-color: #2196F3;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.radio-container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.radio-container .checkmark:after {
+    top: 7px;
+    left: 7px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: white;
+}
+.box {
+
+}
+
+.box select {
+    background-color: #0563af;
+    color: white;
+    padding: 12px;
+    width: auto;
+    border: none;
+    border-radius: 10px;
+    -webkit-appearance: button;
+    appearance: button;
+    outline: none;
+}
+
+.box::before {
+    font-family: FontAwesome;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 20%;
+    height: 100%;
+    text-align: center;
+    font-size: 28px;
+    line-height: 45px;
+    color: rgba(255, 255, 255, 0.5);
+    background-color: black
+    pointer-events: none;
+}
+
+.box:hover::before {
+    color: rgba(255, 255, 255, 0.6);
+    background-color: black;
+}
+
+.box select option {
+    padding: 50px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }

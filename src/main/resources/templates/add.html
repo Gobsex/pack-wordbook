@@ -14,33 +14,48 @@
     <form class="form" th:action="@{/pack/add}" method="post" th:object="${packEntity}" >
         <h1 class="form_title">Create pack</h1>
 
-        <input class="form_input" type="text" th:field="*{name}" placeholder= "Enter pack's name" >
+        <input class="form_input" type="text" th:field="*{name}" placeholder= "Name" >
         <br>
         <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"/>
-        <textarea class="form_textarea" th:field="*{description}" placeholder= "Enter description"/>
+        <textarea class="form_textarea" th:field="*{description}" placeholder= "Description"/>
         <br>
-        <label class="form_title" for="firstLn">Enter first language:</label>
+        <label class="form_title" for="firstLn">First language:</label>
         <select th:field="*{first_ln}" id="firstLn">
             <option value="ru">Russian</option>
             <option value="en">English</option>
             <option value="ua">Ukrainian</option>
         </select><br><br>
         <p th:if="${#fields.hasErrors('first_ln')}" th:errors="*{first_ln}"/>
-        <label class="form_title" for="secondLn">Enter second language:</label>
-        <select th:field="*{second_ln}" id="secondLn">
-            <option value="ru">Russian </option>
-            <option value="en">English</option>
-            <option value="ua">Ukrainian</option>
-        </select>
+        <label class="form_title" for="secondLn">Second language:</label>
+        <div class="box">
+            <select th:field="*{second_ln}" id="secondLn">
+                <option value="ru">Russian </option>
+                <option value="en">English</option>
+                <option value="ua">Ukrainian</option>
+            </select>
+        </div>
         <br><br>
         <p th:if="${#fields.hasErrors('second_ln')}" th:errors="*{second_ln}"/>
-        <label th:for="*{type}" th:text="private"/>
-        <input type="radio" th:field="*{type}" th:value="private">
-        <label th:for="*{type}" th:text="public"/>
-        <input type="radio" th:field="*{type}" th:value="public">
+<!--        <label th:for="*{type}" th:text="private"/>-->
+<!--        <input type="radio" th:field="*{type}" th:value="private">-->
+<!--        <label th:for="*{type}" th:text="public"/>-->
+<!--        <input type="radio" th:field="*{type}" th:value="public">-->
+        <div class="radio-area">
+            <label class="radio-container">Private
+                <input type="radio" th:field="*{type}" th:value="private" checked="checked" name="radio">
+                <span class="checkmark"></span>
+            </label>
+            <label class="radio-container">Public
+                <input type="radio" th:field="*{type}" th:value="public" name="radio">
+                <span class="checkmark"></span>
+            </label>
+        </div>
+
+
+
         <br>
         <p th:if="${#fields.hasErrors('type')}" th:errors="*{type}"/>
-        <button type="submit" class="form_button" name="add_pack">Add pack</button>
+        <button type="submit" class="form_button" name="add_pack">Add</button>
     </form>
 </div>
 </body>
