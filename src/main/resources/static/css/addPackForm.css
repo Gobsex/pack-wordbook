@@ -162,7 +162,7 @@
     font-size: 28px;
     line-height: 45px;
     color: rgba(255, 255, 255, 0.5);
-    background-color: black
+    background-color: black;
     pointer-events: none;
 }
 

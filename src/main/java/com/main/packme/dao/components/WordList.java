@@ -22,7 +22,18 @@ public class WordList {
         this.words = words;
     }
 
+    public boolean isNull(){
+        if(words.isEmpty()){
+            return true;
+        }
+        return false;
+    }
+
     public void add(Word word) {
         words.add(word);
     }
+    public void remove(long id) {
+        words.remove((int)id);
+    }
+
 }

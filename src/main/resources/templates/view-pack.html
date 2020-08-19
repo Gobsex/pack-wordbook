@@ -2,20 +2,86 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Home</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link th:insert="index::style">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/c0c3d5a6d0.js" crossorigin="anonymous"></script>
+
+
 </head>
 <body>
 <div th:insert="index::header"/>
-<h1 style="text-align:center" class="masthead-brand">Pack</h1>
-    <div style="text-align:center">
-        <p th:text="${pack.name}"/>
-        <p th:text="${pack.first_ln}"/>
-        <p th:text="${pack.second_ln}"/>
-        <p th:text="${pack.type}"/>
-        <div th:each="word:${pack.getWordList().getWords()}">
-            <p th:text="${word.key}+'     '+${word.value}"/>
+
+<div class="container">
+    <div th:fragment="pack-general">
+        <div class="pack-container-general-content">
+            <div th:if="${isEditable}" class="pack-general-editable">
+                <div class="pack-general-content">
+                    <H2 th:text="${pack.name}"/>
+                    <p th:text="${pack.description}"/>
+                </div>
+                <!--                <div class="pack-logo-edit"><a th:href="${pack.id}+'/edit'" class="fa fa-pencil"-->
+                <!--                                               style="font-size:20px;color: black; text-decoration: none;"></a></div>-->
+                <div class="pack-logo-edit"><a th:href="@{/pack/{id}/edit(id=${pack.id})}" class="fa fa-pencil"
+                                               style="font-size:20px;color: black; text-decoration: none;"></a></div>
+                <p class="pack-type" th:text="${pack.type}"/>
+                <p class="pack-type-down-logo"></p>
+            </div>
+            <div th:unless="${isEditable}" class="pack-general-view">
+                <div th:styleappend="'border-top-right-radius: 10px;'" class="pack-general-content">
+                    <H2 th:text="${pack.name}"/>
+                    <p th:text="${pack.description}"/>
+                </div>
+                <!--                <div class="pack-logo-edit"><a th:href="${pack.id}+'/edit'" class="fa fa-pencil"-->
+                <!--                                               style="font-size:20px;color: black; text-decoration: none;"></a></div>-->
+                <p th:styleappend="'padding-left=10px;  border-bottom-right-radius: 10px;'" class="pack-type" th:text="${pack.type}"/>
+            </div>
         </div>
     </div>
+    <div th:fragment="ln-general">
+        <div th:if="${isEditable}" class="wordlist-general-editable">
+            <div class="wordlist-first_ln" th:text="${pack.first_ln}"></div>
+            <div class="wordlist-second_ln" th:text="${pack.second_ln}"></div>
+            <div  class="wordlist-edit_bt"><a th:href="@{/pack/{id}/edit-ln(id=${pack.id})}" class="fa fa-pencil"
+                                             style="font-size:20px;color: black; text-decoration: none;"></a></div>
+        </div>
+        <div th:unless="${isEditable}" class="wordlist-general-view">
+            <div class="wordlist-first_ln" th:text="${pack.first_ln}"></div>
+            <div th:styleappend="'border-top-right-radius: 10px;'" class="wordlist-second_ln" th:text="${pack.second_ln}"></div>
+        </div>
+    </div>
+    <div th:fragment="wordlist">
+        <form th:if="${isEditable}" class="word-input-container" th:action="'/pack/'+${pack.id}" method="post">
+            <div class="word-input"><input th:value="${key}" name="key" type="text"></div>
+            <div class="translate-bt">
+                <button name="translate" type="submit" class="fa fa-exchange"
+                        style="font-size: 20px; color:black; text-decoration: none;" ;/>
+            </div>
+            <div class="word-input"><input th:value="${value}" class="word-input" name="value" type="text"></div>
+            <div class="add-bt">
+                <button name="add" type="submit" class="fas fa-plus-square"
+                        style="font-size: 20px; color:black; text-decoration: none;" ;/>
+            </div>
+        </form>
+        <div th:styleappend="${isEditable}?'':'margin-top: 0; border-top-right-radius: 0; border-top-left-radius: 0;'" class="wordlist-container">
+            <div th:each="word:${pack.getWordList().getWords()}">
+                <div th:if="${isEditable}" class="words-container-edit">
+                    <div class="word" th:text="${word.key}"></div>
+                    <div class="word" th:text="${word.value}"></div>
+                    <div class="edit-container"><a th:href="${pack.id}+'/delete/'+${wordStat.index}" class="fa fa-trash"
+                                                   style="font-size:20px;color: black; text-decoration: none;"></a>
+                    </div>
+                </div>
+
+                <div th:unless="${isEditable}" class="words-container-view">
+                    <div th:styleappend="'margin-left = 0;'" class="word" th:text="${word.key}"></div>
+                    <div th:styleappend="'margin-left = 0;'" class="word" th:text="${word.value}"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
 </body>
 </html>

@@ -64,7 +64,9 @@ public class Pack{
     public String getFirst_ln() {
         return first_ln;
     }
-
+    public void removeWord(long id){
+        wordList.remove(id);
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
