@@ -13,6 +13,26 @@
 <div th:insert="index::header"/>
 
 <div class="container">
+    <div th:fragment="pack-stats">
+        <div th:if="${isEditable}" class="pack-stats-editable">
+            <div class="pack-stats-view">20</div>
+            <div class="pack-stats-author"><i class="fa fa-user"
+                                              style="font-size:20px;color: black; text-decoration: none;"></i><span
+                    th:text="' '+${pack.getUser().getUsername()}"/></div>
+            <div class="pack-stats-delete"><a th:href="@{/pack/{id}/delete(id=${pack.id})}" class="fa fa-trash"
+                                              style="font-size:20px;color: black; text-decoration: none;"></a>
+            </div>
+
+        </div>
+        <div th:unless="${isEditable}" class="pack-stats-viewble">
+            <div class="pack-stats-view">20</div>
+            <div th:styleappend="' border-bottom-right-radius: 10px;border-top-right-radius: 10px;'" class="pack-stats-author"><i class="fa fa-user"
+                                              style="font-size:20px;color: black; text-decoration: none;"></i><span
+                    th:text="' '+${pack.getUser().getUsername()}"/></div>
+        </div>
+    </div>
+
+
     <div th:fragment="pack-general">
         <div class="pack-container-general-content">
             <div th:if="${isEditable}" class="pack-general-editable">
@@ -38,6 +58,10 @@
             </div>
         </div>
     </div>
+
+
+
+
     <div th:fragment="ln-general">
         <div th:if="${isEditable}" class="wordlist-general-editable">
             <div class="wordlist-first_ln" th:text="${pack.first_ln}"></div>
@@ -63,12 +87,12 @@
                         style="font-size: 20px; color:black; text-decoration: none;" ;/>
             </div>
         </form>
-        <div th:styleappend="${isEditable}?'':'margin-top: 0; border-top-right-radius: 0; border-top-left-radius: 0;'" class="wordlist-container">
+        <div th:if="${pack.wordList.isNull()==false}" th:styleappend="${isEditable}?'':'margin-top: 0; border-top-right-radius: 0; border-top-left-radius: 0;'" class="wordlist-container">
             <div th:each="word:${pack.getWordList().getWords()}">
                 <div th:if="${isEditable}" class="words-container-edit">
                     <div class="word" th:text="${word.key}"></div>
                     <div class="word" th:text="${word.value}"></div>
-                    <div class="edit-container"><a th:href="${pack.id}+'/delete/'+${wordStat.index}" class="fa fa-trash"
+                    <div class="edit-container"><a th:href="@{/pack/{id}/delete/{wordId}(id=${pack.id},wordId=${wordStat.index})}" class="fa fa-trash"
                                                    style="font-size:20px;color: black; text-decoration: none;"></a>
                     </div>
                 </div>

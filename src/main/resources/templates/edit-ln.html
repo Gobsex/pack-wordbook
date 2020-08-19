@@ -10,6 +10,8 @@
 <body>
 <div th:insert="index::header"/>
 <div class="container">
+    <div th:insert="view-pack::pack-stats"/>
+
     <div th:insert="view-pack::pack-general"/>
     <form th:action="@{/pack/{id}/edit-ln(id=${pack.id})}" method="post" class="wordlist-general-editable">
         <div class="wordlist-first_ln">

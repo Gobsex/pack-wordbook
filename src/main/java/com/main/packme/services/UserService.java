@@ -1,5 +1,6 @@
 package com.main.packme.services;
 
+import com.main.packme.dao.components.WordList;
 import com.main.packme.dao.entity.Pack;
 import com.main.packme.dao.entity.Role;
 import com.main.packme.dao.entity.User;
@@ -44,14 +45,17 @@ public class UserService implements UserDetailsService {
         Optional<User> userFromDb = userRepository.findById(userId);
         return userFromDb.orElse(new User());
     }
-    public void addPack(String username, Pack pack){
+    public long addPack(String username){
         User user = userRepository.findByUsername(username);
+        Pack pack = new Pack("New Pack","en","ru",new WordList(),"private");
         if(user!=null) {
             packsRepository.save(pack);
             user.addPack(pack);
             userRepository.save(user);
+            return pack.getId();
         }
         else System.out.println("user not exist");
+        return 0;
     }
     public boolean isEditable(String username,long packId){
         User user = userRepository.findByUsername(username);

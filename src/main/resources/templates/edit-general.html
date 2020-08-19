@@ -9,7 +9,10 @@
 </head>
 <body>
 <div th:insert="index::header"/>
+
 <div class="container">
+    <div th:insert="view-pack::pack-stats"/>
+
     <form class="pack-container-general-content" th:action="@{/pack/{id}/edit(id=${pack.id})}" method="post">
         <div class="pack-general-editable">
             <div class="pack-general-content">
@@ -30,6 +33,7 @@
             <p class="pack-type-down-logo"></p>
         </div>
     </form>
+
     <div th:insert="view-pack::ln-general"/>
     <div th:insert="view-pack::wordlist"/>
 </div>

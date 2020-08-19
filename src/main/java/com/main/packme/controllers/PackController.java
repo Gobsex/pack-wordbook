@@ -29,21 +29,22 @@ public class PackController {
     Translate translate;
 
     @GetMapping("/add")
-    public String packForm(Model model) {
+    public String packForm(Authentication auth,Model model) {
         model.addAttribute("packEntity", new Pack());
-        return "add";
+        long id = userService.addPack(auth.getName());
+        return "redirect:/pack/" + id+"/edit";
     }
 
-    @PostMapping(value = "/add", params = "add_pack")
-    public String addPack(@Valid @ModelAttribute("packEntity") Pack pack, BindingResult bindingResult, Authentication auth, Model model) {
-        if (bindingResult.hasErrors()) {
-            return "add";
-        }
-        pack.setWordList(new WordList());
-        userService.addPack(auth.getName(), pack);
-        System.out.println(pack);
-        return "redirect:/pack/" + pack.getId() + "edit-general";
-    }
+//    @PostMapping(value = "/add", params = "add_pack")
+//    public String addPack(@Valid @ModelAttribute("packEntity") Pack pack, BindingResult bindingResult, Authentication auth, Model model) {
+//        if (bindingResult.hasErrors()) {
+//            return "add";
+//        }
+//        pack.setWordList(new WordList());
+//        userService.addPack(auth.getName());
+//        System.out.println(pack);
+//        return "redirect:/pack/" + pack.getId() + "edit-general";
+//    }
 
     @GetMapping("/all")
     public String selectAll(Authentication auth, ModelMap model) {
@@ -95,6 +96,8 @@ public class PackController {
                        ModelMap model) {
         if (userService.isEditable(auth.getName(), id)) {
             Pack pack = packService.findById(id);
+            model.addAttribute("isEditable", true);
+
             model.addAttribute("pack", pack);
             return "edit-general";
         } else return "pack-not-found";
@@ -109,6 +112,7 @@ public class PackController {
                        ModelMap model) {
         if (userService.isEditable(auth.getName(), id)) {
             Pack pack = packService.findById(id);
+            model.addAttribute("isEditable", true);
             model.addAttribute("pack", pack);
             return "edit-ln";
         } else return "pack-not-found";
@@ -139,6 +143,7 @@ public class PackController {
         System.out.println(name);
         System.out.println(description);
         if (userService.isEditable(auth.getName(), id)) {
+            model.addAttribute("isEditable", true);
             packService.saveGeneral(id, name, description, type);
         }
         return "redirect:/pack/" + id;
@@ -231,24 +236,34 @@ public class PackController {
             model.addAttribute("key", key);
             model.addAttribute("value", value);
         }
+        model.addAttribute("isEditable", true);
+
         model.addAttribute("pack", pack);
         return "view-pack";
     }
 
-
+    @GetMapping("/{id}/delete")
+    public String deletePack(@PathVariable(value = "id") long id,
+                             Authentication auth,
+                             ModelMap model){
+        if (userService.isEditable(auth.getName(), id)) {
+            userService.removePack(auth.getName(),id);
+        }
+        return "redirect:/pack/all";
+    }
     @GetMapping("/{id}/delete/{wordId}")
     public String removeWord(@PathVariable(value = "id") long id,
                              @PathVariable(value = "wordId") long wordId,
                          Authentication auth,
                          ModelMap model) {
         if (userService.isEditable(auth.getName(), id)) {
-            System.out.println(wordId);
             Pack pack = packService.findById(id);
             pack.removeWord(wordId);
             packService.savePack(pack);
         }
         return "redirect:/pack/" + id;
     }
+
 
 
 }
