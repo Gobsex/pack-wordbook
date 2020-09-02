@@ -12,10 +12,13 @@
 <body>
 <div th:insert="index::header"/>
 
-<div class="container">
+<div class="container" style="margin-top: 15px;">
     <div th:fragment="pack-stats">
         <div th:if="${isEditable}" class="pack-stats-editable">
-            <div class="pack-stats-view">20</div>
+            <div th:if="${favorite}" class="pack-stats-view"><a th:href="@{/pack/{id}/fromFavorites(id=${pack.id})}" class="fa fa-star"
+                                                                style="font-size:20px;color: black; text-decoration: none;"></a></div>
+            <div th:unless="${favorite}" class="pack-stats-view"><a th:href="@{/pack/{id}/toFavorites(id=${pack.id})}" class="fa fa-star-o"
+                                                                style="font-size:20px;color: black; text-decoration: none;"></a></div>
             <div class="pack-stats-author"><i class="fa fa-user"
                                               style="font-size:20px;color: black; text-decoration: none;"></i><span
                     th:text="' '+${pack.getUser().getUsername()}"/></div>
@@ -25,8 +28,10 @@
 
         </div>
         <div th:unless="${isEditable}" class="pack-stats-viewble">
-            <div class="pack-stats-view">20</div>
-            <div th:styleappend="' border-bottom-right-radius: 10px;border-top-right-radius: 10px;'" class="pack-stats-author"><i class="fa fa-user"
+            <div th:if="${favorite}" class="pack-stats-view"><a th:href="@{/pack/{id}/fromFavorites(id=${pack.id})}" class="fa fa-star"
+                                                                style="font-size:20px;color: black; text-decoration: none;"></a></div>
+            <div th:unless="${favorite}" class="pack-stats-view"><a th:href="@{/pack/{id}/toFavorites(id=${pack.id})}" class="fa fa-star-o"
+                                                                    style="font-size:20px;color: black; text-decoration: none;"></a></div>            <div th:styleappend="' border-bottom-right-radius: 10px;border-top-right-radius: 10px;'" class="pack-stats-author"><i class="fa fa-user"
                                               style="font-size:20px;color: black; text-decoration: none;"></i><span
                     th:text="' '+${pack.getUser().getUsername()}"/></div>
         </div>

@@ -4,11 +4,22 @@
     <title>Home</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link th:insert="index::style">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 </head>
 <body>
     <div th:insert="index::header"/>
-    <h1 style="text-align:center" class="masthead-brand">Search Page</h1>
-    <div th:each="pack:${publicPacks}" >
-        <p th:text="${pack.name}"/>
+    <div style="margin-top: 15px;" class="container"  >
+        <div class="pack-container" th:each="pack:${packs}">
+            <div class="pack-logo"><a th:href="@{/pack/{id}(id=${pack.id})}" class="fa fa-eye" style="font-size:20px;color: #e0e0e0; text-decoration: none;"></a></div>
+            <div class="pack-content" >
+                <h2 th:text="${pack.name}"/>
+                <p th:text="${pack.description}"/>
+            </div>
+            <div th:if="${pack.isFavorite()}" class="pack-stats-view" style="border-radius: 0px 10px 10px 0px; background-color: #555555;"><a th:href="@{/pack/{id}/fromFavorites(id=${pack.id})}" class="fa fa-star"
+                                                                                                                                              style="font-size:20px;color: white; text-decoration: none; "></a></div>
+            <div th:unless="${pack.isFavorite()}" class="pack-stats-view" style="border-radius: 0px 10px 10px 0px; background-color: #555555; "><a th:href="@{/pack/{id}/toFavorites(id=${pack.id})}" class="fa fa-star-o"
+                                                                                                                                                   style="font-size:20px;color: white; text-decoration: none; "></a></div>
+        </div>
     </div>
 </body>

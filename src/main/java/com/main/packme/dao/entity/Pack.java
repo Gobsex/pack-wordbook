@@ -29,8 +29,18 @@ public class Pack{
     private String second_ln;
     @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "user_id")
-
     private User user;
+    @Transient
+    private boolean favorite;
+
+    public boolean isFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
+    }
+
     public String getDescription() {
         return description;
     }

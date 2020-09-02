@@ -13,14 +13,14 @@
 
 }
 .site-header {
+
     font-family: sans-serif;
     align-items: center;
     max-width: 100%;
     background-color: #fff;
-    padding: 0 15px;
     border-radius: 15px;
     box-shadow: 0 10px 40px rgba(159, 162, 177, .8);
-    grid-template-columns:2fr 1fr 1fr 1fr 2fr;
+    grid-template-columns:2fr 1fr 1fr 1fr 1.5fr 0.5fr;
     display: grid;
     height: 40px;
     width: 800px;
@@ -29,15 +29,18 @@
     justify-content: center;
     justify-items: stretch;
     text-align: center;
-    top: 0;
 }
 .item{
+    margin-top: 8px;
     text-decoration: none;
     transition: .3s;
     z-index: 1;
     font-size: 16px;
     font-family: 'DM Sans', sans-serif;
     font-weight: 500;
+}
+.item #account{
+    margin-right: 41px;
 }
 .link{
     color: #5c5a5d;
@@ -53,6 +56,7 @@
 }
 
 .container{
+    padding-bottom: 10px;
     border-top: none;
     margin: auto;
     display: grid;
@@ -60,7 +64,6 @@
     font-family: sans-serif;
     align-items: center;
     border-radius: 10px;
-    border-top-left-radius: 0px;
     box-shadow: 0 8px 16px #cccccc;
     justify-content: center;
     justify-items: stretch;
@@ -68,8 +71,8 @@
     width: 800px;
     height: auto;
     background: #f3f3f3;
-    margin-top: 10px;
 }
+
 .tab-container{
     background-color: transparent;
     margin: auto;
@@ -116,12 +119,11 @@
 
 .pack-container{
     margin-top: 10px;
-    margin-bottom: 10px;
 
     width: 750px;
     min-height: 50px;
     display: grid;
-    grid-template-columns: 50px 700px;
+    grid-template-columns: 50px 650px 50px;
 }
 .pack-logo{
     border-radius: 10px;
@@ -143,9 +145,6 @@
 
 .pack-content{
     padding: 5px;
-    border-radius: 10px;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
     background-color: #8d8d8d;
 }
 
@@ -202,11 +201,16 @@
 }
 .pack-stats-view{
     text-align: center;
-    padding: 10px;
     background-color: #ffe5bc;
     border-bottom-left-radius: 10px;
     border-top-left-radius: 10px;
 
+}
+.pack-stats-view a{
+    margin: 0;
+    padding: 0;
+    position:relative;
+    top: calc(50% - 11px);
 }
 .pack-stats-author{
     text-align: center;

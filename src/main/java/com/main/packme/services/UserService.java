@@ -57,6 +57,24 @@ public class UserService implements UserDetailsService {
         else System.out.println("user not exist");
         return 0;
     }
+    public void addToFavorites(String username,long id){
+        User user = userRepository.findByUsername(username);
+        Pack pack = packsRepository.findById(id);
+        if(user!=null) {
+            user.addToFavorites(pack);
+            userRepository.save(user);
+        }
+        else System.out.println("user not exist");
+    }
+    public void removeFromFavorites(String username,long id){
+        User user = userRepository.findByUsername(username);
+        Pack pack = packsRepository.findById(id);
+        if(user!=null) {
+            user.removeFromFavorites(pack);
+            userRepository.save(user);
+        }
+        else System.out.println("user not exist");
+    }
     public boolean isEditable(String username,long packId){
         User user = userRepository.findByUsername(username);
         List<Pack> packs = user.getPacks();
@@ -67,6 +85,7 @@ public class UserService implements UserDetailsService {
         }
         return false;
     }
+
     public boolean isSelectable(long packId){
         Pack pack = packsRepository.findById(packId);
         if(pack.getType().equals("public")){
@@ -74,9 +93,37 @@ public class UserService implements UserDetailsService {
         }
         return false;
     }
+    public boolean isFavorite(String username, long packId){
+        User user = userRepository.findByUsername(username);
+        Pack pack = packsRepository.findById(packId);
+        List<Pack> favoritePacks = user.getFavoritePacks();
+        for (Pack ipack:favoritePacks) {
+            if(ipack.getId()==pack.getId()){
+                return true;
+            }
+        }
+        return false;
+    }
+    public List<Pack> loadFavorite(String username,List<Pack> packs){
+        User user = userRepository.findByUsername(username);
+
+        List<Pack> favoritePacks = user.getFavoritePacks();
+        for (int i = 0; i < favoritePacks.size(); i++) {
+            for (int j = 0; j < packs.size(); j++) {
+                if(favoritePacks.get(i).getId()==packs.get(j).getId()){
+                    packs.get(j).setFavorite(true);
+                }
+            }
+        }
+        return packs;
+    }
     public List<Pack> findAllPacks(String username){
         User user = userRepository.findByUsername(username);
         return user.getPacks();
+    }
+    public List<Pack> findFavoritePacks(String username){
+        User user = userRepository.findByUsername(username);
+        return user.getFavoritePacks();
     }
     public List<Pack> findAllPublicPacks(String username){
         List<Pack> publicPacks = new ArrayList<>();
@@ -90,6 +137,7 @@ public class UserService implements UserDetailsService {
         }
         return publicPacks;
     }
+
     public List<Pack> findAllPrivatePacks(String username){
         List<Pack> privatePacks = new ArrayList<>();
 
@@ -116,6 +164,11 @@ public class UserService implements UserDetailsService {
         User user = userRepository.findByUsername(username);
         if(user!=null) {
             Pack pack = packsRepository.findById(packId);
+            List<User> all = userRepository.findAll();
+            for (User useri:all) {
+                useri.removeFromFavorites(pack);
+                userRepository.save(useri);
+            }
             packsRepository.delete(pack);
             user.removePack(pack);
             userRepository.save(user);

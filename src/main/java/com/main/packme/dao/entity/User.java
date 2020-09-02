@@ -24,8 +24,34 @@ public class User implements UserDetails{
     private Set<Role> roles;
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.REFRESH,mappedBy = "user")
     private List<Pack> packs;
+    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
+    private List<Pack> favoritePacks;
     public User() {
     }
+
+    public List<Pack> getFavoritePacks() {
+        if(favoritePacks==null){
+            favoritePacks = new ArrayList<>();
+        }
+        return favoritePacks;
+    }
+
+    public void removeFromFavorites(Pack pack){
+        if(pack!=null) {
+            favoritePacks.remove(pack);
+            System.out.println(favoritePacks);
+
+        }
+    }
+    public void addToFavorites(Pack pack){
+        if(favoritePacks==null){
+            favoritePacks = new ArrayList<>();
+        }
+        System.out.println("added");
+        favoritePacks.add(pack);
+    }
+
+
     public void addPack(Pack pack){
         if(packs==null){
             packs = new ArrayList<>();

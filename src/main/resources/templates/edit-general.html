@@ -10,7 +10,7 @@
 <body>
 <div th:insert="index::header"/>
 
-<div class="container">
+<div style="margin-top: 15px;" class="container">
     <div th:insert="view-pack::pack-stats"/>
 
     <form class="pack-container-general-content" th:action="@{/pack/{id}/edit(id=${pack.id})}" method="post">

@@ -47,11 +47,11 @@ public class PackController {
 //    }
 
     @GetMapping("/all")
-    public String selectAll(Authentication auth, ModelMap model) {
+    public String selectFavorite(Authentication auth, ModelMap model) {
         String username = auth.getName();
-        List<Pack> packs = userService.findAllPacks(username);
+        List<Pack> packList = userService.findFavoritePacks(username);
+        List<Pack> packs = userService.loadFavorite(username, packList);
         model.addAttribute("isAll", true);
-
         model.addAttribute("packs", packs);
         return "packs";
     }
@@ -59,7 +59,9 @@ public class PackController {
     @GetMapping("/public")
     public String selectPublic(Authentication auth, ModelMap model) {
         String username = auth.getName();
-        List<Pack> packs = userService.findAllPublicPacks(username);
+        List<Pack> packList = userService.findAllPublicPacks(username);
+        List<Pack> packs = userService.loadFavorite(username, packList);
+
         model.addAttribute("isPublic", true);
 
         model.addAttribute("packs", packs);
@@ -69,7 +71,9 @@ public class PackController {
     @GetMapping("/private")
     public String selectPrivate(Authentication auth, ModelMap model) {
         String username = auth.getName();
-        List<Pack> packs = userService.findAllPrivatePacks(username);
+        List<Pack> packList = userService.findAllPrivatePacks(username);
+        List<Pack> packs = userService.loadFavorite(username, packList);
+
         model.addAttribute("isPrivate", true);
 
         model.addAttribute("packs", packs);
@@ -78,6 +82,9 @@ public class PackController {
 
     @GetMapping("/{id}")
     public String select(@PathVariable(value = "id") long id, Authentication auth, ModelMap model) {
+        if(userService.isFavorite(auth.getName(),id)){
+            model.addAttribute("favorite", true);
+        }
         if (userService.isEditable(auth.getName(), id)) {
             Pack pack = packService.findById(id);
             model.addAttribute("isEditable", true);
@@ -94,6 +101,9 @@ public class PackController {
     public String edit(@PathVariable(value = "id") long id,
                        Authentication auth,
                        ModelMap model) {
+        if(userService.isFavorite(auth.getName(),id)){
+            model.addAttribute("favorite", true);
+        }
         if (userService.isEditable(auth.getName(), id)) {
             Pack pack = packService.findById(id);
             model.addAttribute("isEditable", true);
@@ -110,6 +120,9 @@ public class PackController {
     public String editLn(@PathVariable(value = "id") long id,
                        Authentication auth,
                        ModelMap model) {
+        if(userService.isFavorite(auth.getName(),id)){
+            model.addAttribute("favorite", true);
+        }
         if (userService.isEditable(auth.getName(), id)) {
             Pack pack = packService.findById(id);
             model.addAttribute("isEditable", true);
@@ -126,6 +139,9 @@ public class PackController {
                        @Param(value = "secondLn") String secondLn,
                        Authentication auth,
                        ModelMap model) {
+        if(userService.isFavorite(auth.getName(),id)){
+            model.addAttribute("favorite", true);
+        }
         if (userService.isEditable(auth.getName(), id)) {
             packService.saveLn(id,firstLn,secondLn);
         }
@@ -140,8 +156,7 @@ public class PackController {
                        @Param(value = "type") String type,
                        Authentication auth,
                        ModelMap model) {
-        System.out.println(name);
-        System.out.println(description);
+
         if (userService.isEditable(auth.getName(), id)) {
             model.addAttribute("isEditable", true);
             packService.saveGeneral(id, name, description, type);
@@ -264,6 +279,22 @@ public class PackController {
         return "redirect:/pack/" + id;
     }
 
+    @GetMapping("/{id}/toFavorites")
+    public String toFavorites(@PathVariable(value = "id") long id,
+                             @RequestHeader(value = "referer", required = false)String referer,
+                             Authentication auth,
+                             ModelMap model){
+        userService.addToFavorites(auth.getName(),id);
+        return "redirect:"+referer;
+    }
+    @GetMapping("/{id}/fromFavorites")
+    public String fromFavorites(@PathVariable(value = "id") long id,
+                                @RequestHeader(value = "referer", required = false)String referer,
+                              Authentication auth,
+                              ModelMap model){
+        userService.removeFromFavorites(auth.getName(),id);
 
+        return "redirect:"+referer;
+    }
 
 }
