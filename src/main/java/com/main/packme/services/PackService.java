@@ -18,19 +18,22 @@ public class PackService {
     public void savePack(Pack pack){
         packsRepository.save(pack);
     }
-    public void saveGeneral(long id, String name, String description, String type){
+    public void saveGeneral(long id, String name, String description, String type,String firstLn,String secondLn){
         Pack byId = packsRepository.findById(id);
         byId.setName(name);
         byId.setDescription(description);
         byId.setType(type);
-        packsRepository.save(byId);
-    }
-    public void saveLn(long id, String firstLn, String secondLn){
-        Pack byId = packsRepository.findById(id);
         byId.setFirst_ln(firstLn);
         byId.setSecond_ln(secondLn);
+
         packsRepository.save(byId);
     }
+//    public void saveLn(long id, String firstLn, String secondLn){
+//        Pack byId = packsRepository.findById(id);
+//        byId.setFirst_ln(firstLn);
+//        byId.setSecond_ln(secondLn);
+//        packsRepository.save(byId);
+//    }
     public List<Pack> findAllPublicPacks(){
        return packsRepository.findAllByType("public");
     }

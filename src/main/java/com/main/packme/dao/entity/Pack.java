@@ -1,6 +1,8 @@
 package com.main.packme.dao.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.main.packme.convertors.JpaConverterJson;
 import com.main.packme.dao.components.WordList;
 
@@ -44,7 +46,7 @@ public class Pack{
     public String getDescription() {
         return description;
     }
-
+    @JsonBackReference
     public User getUser() {
         return user;
     }

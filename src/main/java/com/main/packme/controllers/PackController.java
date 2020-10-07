@@ -90,7 +90,7 @@ public class PackController {
             model.addAttribute("isEditable", true);
             model.addAttribute("pack", pack);
             return "view-pack";
-        } else if (userService.isSelectable(id)) {
+        } else if (userService.isSelectable(auth.getName(),id)) {
             Pack pack = packService.findById(id);
             model.addAttribute("pack", pack);
             return "view-pack";
@@ -133,20 +133,20 @@ public class PackController {
 
 
 
-    @PostMapping(value = "/{id}/edit-ln", params = "save_ln")
-    public String saveLn(@PathVariable(value = "id") long id,
-                       @Param(value = "firstLn") String firstLn,
-                       @Param(value = "secondLn") String secondLn,
-                       Authentication auth,
-                       ModelMap model) {
-        if(userService.isFavorite(auth.getName(),id)){
-            model.addAttribute("favorite", true);
-        }
-        if (userService.isEditable(auth.getName(), id)) {
-            packService.saveLn(id,firstLn,secondLn);
-        }
-        return "redirect:/pack/" + id;
-    }
+//    @PostMapping(value = "/{id}/edit-ln", params = "save_ln")
+//    public String saveLn(@PathVariable(value = "id") long id,
+//                       @Param(value = "firstLn") String firstLn,
+//                       @Param(value = "secondLn") String secondLn,
+//                       Authentication auth,
+//                       ModelMap model) {
+//        if(userService.isFavorite(auth.getName(),id)){
+//            model.addAttribute("favorite", true);
+//        }
+//        if (userService.isEditable(auth.getName(), id)) {
+//            packService.saveLn(id,firstLn,secondLn);
+//        }
+//        return "redirect:/pack/" + id;
+//    }
 
 
     @PostMapping(value = "/{id}/edit", params = "save_general")
@@ -154,12 +154,14 @@ public class PackController {
                        @Param(value = "name") String name,
                        @Param(value = "description") String description,
                        @Param(value = "type") String type,
+                       @Param(value = "firstLn") String firstLn,
+                       @Param(value = "secondLn") String secondLn,
                        Authentication auth,
                        ModelMap model) {
 
         if (userService.isEditable(auth.getName(), id)) {
             model.addAttribute("isEditable", true);
-            packService.saveGeneral(id, name, description, type);
+            packService.saveGeneral(id, name, description, type,firstLn,secondLn);
         }
         return "redirect:/pack/" + id;
     }
@@ -192,45 +194,21 @@ public class PackController {
         if (wordList == null) {
             wordList = new WordList();
         }
-        wordList.add(new Word(key, value));
-        pack.setWordList(wordList);
-        packService.savePack(pack);
+        if(key!=""&&value!="") {
+            wordList.add(new Word(key, value));
+            pack.setWordList(wordList);
+            packService.savePack(pack);
+        }
         return "redirect:/pack/" + pack.getId();
     }
 
-    //    @PostMapping(value = "/{id}/edit",params = "translate")
-//    public String translateWord(
-//            @PathVariable(value = "id")long id,
-//            @RequestParam String key,
-//            @RequestParam String value,
-//            Model model){
-//        Pack pack = packService.findById(id);
-//        if(key!=""||value!="") {
-//            if (key == "" || key == null) {
-//                String translation = translate.getTranslation(value, pack.getSecond_ln(), pack.getFirst_ln());
-//                System.out.println(translation);
-//                model.addAttribute("value", value);
-//                model.addAttribute("key", translation);
-//            }
-//            if (value == "" || value == null) {
-//                String translation = translate.getTranslation(key, pack.getFirst_ln(), pack.getSecond_ln());
-//                System.out.println(translation);
-//                model.addAttribute("key", key);
-//                model.addAttribute("value", translation);
-//            }
-//        }
-//        if(key!=""&&value!=""){
-//            model.addAttribute("key", key);
-//            model.addAttribute("value", value);
-//        }
-//        model.addAttribute("pack",pack);
-//        return "edit-general";
-//    }
+
     @PostMapping(value = "/{id}", params = "translate")
     public String translateWordInView(
             @PathVariable(value = "id") long id,
             @RequestParam String key,
             @RequestParam String value,
+            Authentication auth,
             Model model) {
         Pack pack = packService.findById(id);
         if (key != "" || value != "") {
@@ -251,6 +229,8 @@ public class PackController {
             model.addAttribute("key", key);
             model.addAttribute("value", value);
         }
+        boolean favorite = userService.isFavorite(auth.getName(), id);
+        model.addAttribute("favorite",favorite);
         model.addAttribute("isEditable", true);
 
         model.addAttribute("pack", pack);
@@ -266,7 +246,7 @@ public class PackController {
         }
         return "redirect:/pack/all";
     }
-    @GetMapping("/{id}/delete/{wordId}")
+    @GetMapping("/{id}/remove/{wordId}")
     public String removeWord(@PathVariable(value = "id") long id,
                              @PathVariable(value = "wordId") long wordId,
                          Authentication auth,
@@ -296,5 +276,20 @@ public class PackController {
 
         return "redirect:"+referer;
     }
+
+
+    @GetMapping("/{id}/train")
+    public String train(@PathVariable(value = "id") long id,
+                      Authentication auth,
+                      ModelMap model){
+        if (userService.isSelectable(auth.getName(), id)){
+            model.addAttribute("pack",packService.findById(id));
+        }
+        return "train";
+    }
+
+
+
+
 
 }

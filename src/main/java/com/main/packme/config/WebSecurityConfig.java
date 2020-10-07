@@ -34,9 +34,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 //Настройка для входа в систему
                 .formLogin()
+                .loginPage("/login")
+                .permitAll()
                 //Перенарпавление на главную страницу после успешного входа
                 .defaultSuccessUrl("/")
-                .permitAll()
                 .and()
                 .logout()
                 .permitAll()
@@ -46,6 +47,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder());
     }
-
 
 }

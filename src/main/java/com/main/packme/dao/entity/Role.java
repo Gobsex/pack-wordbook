@@ -1,5 +1,6 @@
 package com.main.packme.dao.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
@@ -45,7 +46,7 @@ public class Role implements GrantedAuthority {
     public Set<User> getUsers() {
         return users;
     }
-
+    @JsonBackReference
     public void setUsers(Set<User> users) {
         this.users = users;
     }

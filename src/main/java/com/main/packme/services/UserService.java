@@ -86,9 +86,9 @@ public class UserService implements UserDetailsService {
         return false;
     }
 
-    public boolean isSelectable(long packId){
+    public boolean isSelectable(String username,long packId){
         Pack pack = packsRepository.findById(packId);
-        if(pack.getType().equals("public")){
+        if(pack.getType().equals("public")||pack.getUser().getUsername().equals(username)){
             return true;
         }
         return false;

@@ -1,14 +1,13 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Home</title>
+    <title>About</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link th:insert="index::style">
+    <th:block th:insert="re-index::metadata"/>
 </head>
-<nav class="site-header sticky-top py-1">
-    <div th:insert="index::header"/>
-
-    <div >
+<body>
+    <div th:insert="re-index::header"/>
+    <div>
         <h1 style="text-align:center" class="masthead-brand">About Page</h1>
     </div>
-</nav>
+</body>

@@ -15,6 +15,7 @@ public class HomeController {
     PacksRepository packsRepository;
     @GetMapping("/")
     public String home( Model model) {
+        model.addAttribute("isHome",true);
         return "home";
     }
     @GetMapping("/about")

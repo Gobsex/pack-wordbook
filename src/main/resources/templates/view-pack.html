@@ -1,116 +1,180 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Home</title>
+    <title>Pack</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link th:insert="index::style">
+    <th:block th:insert="re-index::metadata"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://kit.fontawesome.com/c0c3d5a6d0.js" crossorigin="anonymous"></script>
 
 
 </head>
 <body>
-<div th:insert="index::header"/>
+<div th:insert="re-index::header"/>
+<div class="div-block-14"></div>
 
-<div class="container" style="margin-top: 15px;">
-    <div th:fragment="pack-stats">
-        <div th:if="${isEditable}" class="pack-stats-editable">
-            <div th:if="${favorite}" class="pack-stats-view"><a th:href="@{/pack/{id}/fromFavorites(id=${pack.id})}" class="fa fa-star"
-                                                                style="font-size:20px;color: black; text-decoration: none;"></a></div>
-            <div th:unless="${favorite}" class="pack-stats-view"><a th:href="@{/pack/{id}/toFavorites(id=${pack.id})}" class="fa fa-star-o"
-                                                                style="font-size:20px;color: black; text-decoration: none;"></a></div>
-            <div class="pack-stats-author"><i class="fa fa-user"
-                                              style="font-size:20px;color: black; text-decoration: none;"></i><span
-                    th:text="' '+${pack.getUser().getUsername()}"/></div>
-            <div class="pack-stats-delete"><a th:href="@{/pack/{id}/delete(id=${pack.id})}" class="fa fa-trash"
-                                              style="font-size:20px;color: black; text-decoration: none;"></a>
-            </div>
-
+<div class="section">
+    <div class="info-container">
+        <div id="w-node-e54d0df80587-65e75e2a" class="div-block-21">
+            <div class="hits">author:</div>
+            <div class="text-block-2"><span th:text="${pack.user.getUsername()}" id="author" class="meta-info"/></div>
         </div>
-        <div th:unless="${isEditable}" class="pack-stats-viewble">
-            <div th:if="${favorite}" class="pack-stats-view"><a th:href="@{/pack/{id}/fromFavorites(id=${pack.id})}" class="fa fa-star"
-                                                                style="font-size:20px;color: black; text-decoration: none;"></a></div>
-            <div th:unless="${favorite}" class="pack-stats-view"><a th:href="@{/pack/{id}/toFavorites(id=${pack.id})}" class="fa fa-star-o"
-                                                                    style="font-size:20px;color: black; text-decoration: none;"></a></div>            <div th:styleappend="' border-bottom-right-radius: 10px;border-top-right-radius: 10px;'" class="pack-stats-author"><i class="fa fa-user"
-                                              style="font-size:20px;color: black; text-decoration: none;"></i><span
-                    th:text="' '+${pack.getUser().getUsername()}"/></div>
+        <div id="w-node-e54d0df8058d-65e75e2a" class="div-block-8">
+            <div class="hits">language:</div>
+            <div class="text-block-7"><span id="language" class="text-span-9" th:text="${pack.first_ln}+' - '+${pack.second_ln}"/></div>
+            <div class="hits">type:</div>
+            <div class="text-block-7"><span id="type" class="text-span-9" th:text="${pack.type}"/></div>
         </div>
-    </div>
+        <div id="w-node-e54d0df8059a-65e75e2a" class="div-block-22">
+            <div class="hits">description:</div>
+            <p class="description" th:text="${pack.description}"/></div>
+        <div id="w-node-e54d0df8059f-65e75e2a" class="div-block-10">
 
-
-    <div th:fragment="pack-general">
-        <div class="pack-container-general-content">
-            <div th:if="${isEditable}" class="pack-general-editable">
-                <div class="pack-general-content">
-                    <H2 th:text="${pack.name}"/>
-                    <p th:text="${pack.description}"/>
-                </div>
-                <!--                <div class="pack-logo-edit"><a th:href="${pack.id}+'/edit'" class="fa fa-pencil"-->
-                <!--                                               style="font-size:20px;color: black; text-decoration: none;"></a></div>-->
-                <div class="pack-logo-edit"><a th:href="@{/pack/{id}/edit(id=${pack.id})}" class="fa fa-pencil"
-                                               style="font-size:20px;color: black; text-decoration: none;"></a></div>
-                <p class="pack-type" th:text="${pack.type}"/>
-                <p class="pack-type-down-logo"></p>
+            <div class="div-block-10">
+                <div class="div-block-24">
+                    <a th:classappend="${isEditable!=true} ? 'banned'" th:href="@{/pack/{id}/delete(id=${pack.id})}" class="delete w-button">Delete</a>
+                    <a th:href="@{/pack/{id}/train(id=${pack.id})}" class="train w-button">Train</a>
+                    <a th:href="@{/pack/{id}/edit(id=${pack.id})}" th:classappend="${isEditable!=true} ? 'banned'" class="edit w-button">Edit</a></div>
             </div>
-            <div th:unless="${isEditable}" class="pack-general-view">
-                <div th:styleappend="'border-top-right-radius: 10px;'" class="pack-general-content">
-                    <H2 th:text="${pack.name}"/>
-                    <p th:text="${pack.description}"/>
-                </div>
-                <!--                <div class="pack-logo-edit"><a th:href="${pack.id}+'/edit'" class="fa fa-pencil"-->
-                <!--                                               style="font-size:20px;color: black; text-decoration: none;"></a></div>-->
-                <p th:styleappend="'padding-left=10px;  border-bottom-right-radius: 10px;'" class="pack-type" th:text="${pack.type}"/>
-            </div>
+<!--            <div class="columns w-row">-->
+<!--                <div class="column w-col w-col-4"><a th:classappend="${isEditable!=true} ? 'banned'" th:href="${pack.id}+'/delete'" class="delete w-button">Delete</a></div>-->
+<!--                <div class="w-col w-col-4"><a th:href="${pack.id}+'/train'" class="train w-button">Train</a></div>-->
+<!--                <div class="w-col w-col-4"><a th:classappend="${isEditable!=true} ? 'banned'" th:href="${pack.id}+'/edit'" class="edit w-button">Edit</a></div>-->
+<!--            </div>-->
+        </div>
+        <div id="w-node-e54d0df805aa-65e75e2a" class="div-block-9"><a th:classappend="${favorite} ? liked-button" th:text="${favorite} ? 'Liked':'Like'" th:href="${favorite} ? ${pack.id}+'/fromFavorites':${pack.id}+'/toFavorites'" class="like w-button"/></div>
+        <div id="w-node-e54d0df805ad-65e75e2a" class="div-block-23">
+            <div class="hits">name:</div>
+            <div class="text-block-6"><strong class="name" th:text="${pack.name}"/></div>
         </div>
     </div>
 
 
 
+    <div th:fragment="wordlist" id="wordlist-container" class="wordlist-container">
+        <div th:classappend="${isEditable!=true} ? 'banned'" id="input-container" class="input-container">
+            <div class="form-block w-form">
+                <form th:action="'/pack/'+${pack.id}" method="post" class="form">
+                    <button name="add" type="submit" class="add w-button">Add</button>
+                    <input th:placeholder="${pack.first_ln}" type="text" name="key" th:value="${key}" class="input w-input"  >
+                    <input th:placeholder="${pack.second_ln}" type="text" name="value" th:value="${value}" class="input w-input">
+                    <button name="translate" type="submit"  class="translate w-button">Translate</button>
+                </form>
+            </div>
+        </div>
 
-    <div th:fragment="ln-general">
-        <div th:if="${isEditable}" class="wordlist-general-editable">
-            <div class="wordlist-first_ln" th:text="${pack.first_ln}"></div>
-            <div class="wordlist-second_ln" th:text="${pack.second_ln}"></div>
-            <div  class="wordlist-edit_bt"><a th:href="@{/pack/{id}/edit-ln(id=${pack.id})}" class="fa fa-pencil"
-                                             style="font-size:20px;color: black; text-decoration: none;"></a></div>
-        </div>
-        <div th:unless="${isEditable}" class="wordlist-general-view">
-            <div class="wordlist-first_ln" th:text="${pack.first_ln}"></div>
-            <div th:styleappend="'border-top-right-radius: 10px;'" class="wordlist-second_ln" th:text="${pack.second_ln}"></div>
-        </div>
-    </div>
-    <div th:fragment="wordlist">
-        <form th:if="${isEditable}" class="word-input-container" th:action="'/pack/'+${pack.id}" method="post">
-            <div class="word-input"><input th:value="${key}" name="key" type="text"></div>
-            <div class="translate-bt">
-                <button name="translate" type="submit" class="fa fa-exchange"
-                        style="font-size: 20px; color:black; text-decoration: none;" ;/>
-            </div>
-            <div class="word-input"><input th:value="${value}" class="word-input" name="value" type="text"></div>
-            <div class="add-bt">
-                <button name="add" type="submit" class="fas fa-plus-square"
-                        style="font-size: 20px; color:black; text-decoration: none;" ;/>
-            </div>
-        </form>
-        <div th:if="${pack.wordList.isNull()==false}" th:styleappend="${isEditable}?'':'margin-top: 0; border-top-right-radius: 0; border-top-left-radius: 0;'" class="wordlist-container">
-            <div th:each="word:${pack.getWordList().getWords()}">
-                <div th:if="${isEditable}" class="words-container-edit">
-                    <div class="word" th:text="${word.key}"></div>
-                    <div class="word" th:text="${word.value}"></div>
-                    <div class="edit-container"><a th:href="@{/pack/{id}/delete/{wordId}(id=${pack.id},wordId=${wordStat.index})}" class="fa fa-trash"
-                                                   style="font-size:20px;color: black; text-decoration: none;"></a>
-                    </div>
-                </div>
 
-                <div th:unless="${isEditable}" class="words-container-view">
-                    <div th:styleappend="'margin-left = 0;'" class="word" th:text="${word.key}"></div>
-                    <div th:styleappend="'margin-left = 0;'" class="word" th:text="${word.value}"></div>
-                </div>
-            </div>
-        </div>
+        <div id="words" th:each="word:${pack.wordList.words}" class="words">
+            <div id="counter" class="counter" th:text="${wordStat.index+1}"/>
+            <div id="key" class="word" th:text="${word.key}"/>
+            <div id="value" class="word" th:text="${word.value}" />
+            <a id="remove" th:href="@{/pack/{id}/remove/{index}(id=${pack.id},index=${wordStat.index})}" th:classappend="${isEditable!=true} ? 'banned'" class="remove w-node-dca3c02a84f0-86e75e29 w-button">Remove</a></div>
     </div>
 </div>
-</div>
-</div>
+
+
+
+
+
+<!--<div class="container" style="margin-top: 15px;">-->
+<!--    <div th:fragment="pack-stats">-->
+<!--        <div th:if="${isEditable}" class="pack-stats-editable">-->
+<!--            <div th:if="${favorite}" class="pack-stats-view"><a th:href="@{/pack/{id}/fromFavorites(id=${pack.id})}" class="fa fa-star"-->
+<!--                                                                style="font-size:20px;color: black; text-decoration: none;"></a></div>-->
+<!--            <div th:unless="${favorite}" class="pack-stats-view"><a th:href="@{/pack/{id}/toFavorites(id=${pack.id})}" class="fa fa-star-o"-->
+<!--                                                                style="font-size:20px;color: black; text-decoration: none;"></a></div>-->
+<!--            <div class="pack-stats-author"><i class="fa fa-user"-->
+<!--                                              style="font-size:20px;color: black; text-decoration: none;"></i><span-->
+<!--                    th:text="' '+${pack.getUser().getUsername()}"/></div>-->
+<!--            <div class="pack-stats-delete"><a th:href="@{/pack/{id}/delete(id=${pack.id})}" class="fa fa-trash"-->
+<!--                                              style="font-size:20px;color: black; text-decoration: none;"></a>-->
+<!--            </div>-->
+
+<!--        </div>-->
+<!--        <div th:unless="${isEditable}" class="pack-stats-viewble">-->
+<!--            <div th:if="${favorite}" class="pack-stats-view"><a th:href="@{/pack/{id}/fromFavorites(id=${pack.id})}" class="fa fa-star"-->
+<!--                                                                style="font-size:20px;color: black; text-decoration: none;"></a></div>-->
+<!--            <div th:unless="${favorite}" class="pack-stats-view"><a th:href="@{/pack/{id}/toFavorites(id=${pack.id})}" class="fa fa-star-o"-->
+<!--                                                                    style="font-size:20px;color: black; text-decoration: none;"></a></div>            <div th:styleappend="' border-bottom-right-radius: 10px;border-top-right-radius: 10px;'" class="pack-stats-author"><i class="fa fa-user"-->
+<!--                                              style="font-size:20px;color: black; text-decoration: none;"></i><span-->
+<!--                    th:text="' '+${pack.getUser().getUsername()}"/></div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+
+<!--    <div th:fragment="pack-general">-->
+<!--        <div class="pack-container-general-content">-->
+<!--            <div th:if="${isEditable}" class="pack-general-editable">-->
+<!--                <div class="pack-general-content">-->
+<!--                    <H2 th:text="${pack.name}"/>-->
+<!--                    <p th:text="${pack.description}"/>-->
+<!--                </div>-->
+<!--                &lt;!&ndash;                <div class="pack-logo-edit"><a th:href="${pack.id}+'/edit'" class="fa fa-pencil"&ndash;&gt;-->
+<!--                &lt;!&ndash;                                               style="font-size:20px;color: black; text-decoration: none;"></a></div>&ndash;&gt;-->
+<!--                <div class="pack-logo-edit"><a th:href="@{/pack/{id}/edit(id=${pack.id})}" class="fa fa-pencil"-->
+<!--                                               style="font-size:20px;color: black; text-decoration: none;"></a></div>-->
+<!--                <p class="pack-type" th:text="${pack.type}"/>-->
+<!--                <p class="pack-type-down-logo"></p>-->
+<!--            </div>-->
+<!--            <div th:unless="${isEditable}" class="pack-general-view">-->
+<!--                <div th:styleappend="'border-top-right-radius: 10px;'" class="pack-general-content">-->
+<!--                    <H2 th:text="${pack.name}"/>-->
+<!--                    <p th:text="${pack.description}"/>-->
+<!--                </div>-->
+<!--                &lt;!&ndash;                <div class="pack-logo-edit"><a th:href="${pack.id}+'/edit'" class="fa fa-pencil"&ndash;&gt;-->
+<!--                &lt;!&ndash;                                               style="font-size:20px;color: black; text-decoration: none;"></a></div>&ndash;&gt;-->
+<!--                <p th:styleappend="'padding-left=10px;  border-bottom-right-radius: 10px;'" class="pack-type" th:text="${pack.type}"/>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+
+
+
+<!--    <div th:fragment="ln-general">-->
+<!--        <div th:if="${isEditable}" class="wordlist-general-editable">-->
+<!--            <div class="wordlist-first_ln" th:text="${pack.first_ln}"></div>-->
+<!--            <div class="wordlist-second_ln" th:text="${pack.second_ln}"></div>-->
+<!--            <div  class="wordlist-edit_bt"><a th:href="@{/pack/{id}/edit-ln(id=${pack.id})}" class="fa fa-pencil"-->
+<!--                                             style="font-size:20px;color: black; text-decoration: none;"></a></div>-->
+<!--        </div>-->
+<!--        <div th:unless="${isEditable}" class="wordlist-general-view">-->
+<!--            <div class="wordlist-first_ln" th:text="${pack.first_ln}"></div>-->
+<!--            <div th:styleappend="'border-top-right-radius: 10px;'" class="wordlist-second_ln" th:text="${pack.second_ln}"></div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div th:fragment="wordlist">-->
+<!--        <form th:if="${isEditable}" class="word-input-container" th:action="'/pack/'+${pack.id}" method="post">-->
+<!--            <div class="word-input"><input th:value="${key}" name="key" type="text"></div>-->
+<!--            <div class="translate-bt">-->
+<!--                <button name="translate" type="submit" class="fa fa-exchange"-->
+<!--                        style="font-size: 20px; color:black; text-decoration: none;" ;/>-->
+<!--            </div>-->
+<!--            <div class="word-input"><input th:value="${value}" class="word-input" name="value" type="text"></div>-->
+<!--            <div class="add-bt">-->
+<!--                <button name="add" type="submit" class="fas fa-plus-square"-->
+<!--                        style="font-size: 20px; color:black; text-decoration: none;" ;/>-->
+<!--            </div>-->
+<!--        </form>-->
+<!--        <div th:if="${pack.wordList.isNull()==false}" th:styleappend="${isEditable}?'':'margin-top: 0; border-top-right-radius: 0; border-top-left-radius: 0;'" class="wordlist-container">-->
+<!--            <div th:each="word:${pack.getWordList().getWords()}">-->
+<!--                <div th:if="${isEditable}" class="words-container-edit">-->
+<!--                    <div class="word" th:text="${word.key}"></div>-->
+<!--                    <div class="word" th:text="${word.value}"></div>-->
+<!--                    <div class="edit-container"><a th:href="@{/pack/{id}/delete/{wordId}(id=${pack.id},wordId=${wordStat.index})}" class="fa fa-trash"-->
+<!--                                                   style="font-size:20px;color: black; text-decoration: none;"></a>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                <div th:unless="${isEditable}" class="words-container-view">-->
+<!--                    <div th:styleappend="'margin-left = 0;'" class="word" th:text="${word.key}"></div>-->
+<!--                    <div th:styleappend="'margin-left = 0;'" class="word" th:text="${word.value}"></div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
 </body>
 </html>

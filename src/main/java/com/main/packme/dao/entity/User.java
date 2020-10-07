@@ -1,5 +1,6 @@
 package com.main.packme.dao.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -64,6 +65,7 @@ public class User implements UserDetails{
             packs.remove(pack);
         }
     }
+    @JsonManagedReference
     public List<Pack> getPacks() {
         return packs;
     }
@@ -126,7 +128,7 @@ public class User implements UserDetails{
     public void setPasswordConfirm(String passwordConfirm) {
         this.passwordConfirm = passwordConfirm;
     }
-
+    @JsonManagedReference
     public Set<Role> getRoles() {
         return roles;
     }

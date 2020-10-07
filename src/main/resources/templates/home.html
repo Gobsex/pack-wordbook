@@ -1,14 +1,17 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
 <head>
+    <meta charset="UTF-8">
     <title>Home</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link th:insert="index::style">
+    <th:block th:insert="re-index::metadata"/>
 </head>
 <body>
-    <div th:insert="index::header"/>
-    <div >
-        <h1 style="text-align:center" class="masthead-brand">Home Page</h1>
-    </div>
+    <div th:insert="re-index::header"/>
+    <div class="container-3 w-container"><a href="/pack/all" id="w-node-5aeb6d493ac4-4be75e1e"
+                                            class="button-2 w-button">Train</a></div>
 </body>
 </html>

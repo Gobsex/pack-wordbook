@@ -18,6 +18,31 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+
+    @GetMapping("/login")
+    public String login(Model model) {
+//        model.addAttribute("userForm", new User());
+
+        return "login";
+    }
+
+//    @PostMapping("/login")
+//    public String singIn(@ModelAttribute("userForm") @Valid User userForm, BindingResult bindingResult, Model model) {
+//
+//        if (bindingResult.hasErrors()) {
+//            return "login";
+//        }
+//        if (!userForm.getPassword().equals(userForm.getPasswordConfirm())){
+//            model.addAttribute("passwordError", "Пароли не совпадают");
+//            return "login";
+//        }
+//        if (!userService.saveUser(userForm)){
+//            model.addAttribute("usernameError", "Пользователь с таким именем уже существует");
+//            return "login";
+//        }
+//        return "redirect:/login";
+//    }
+
     @GetMapping("/registration")
     public String registration(Model model) {
         model.addAttribute("userForm", new User());

@@ -3,23 +3,41 @@
 <head>
     <title>Home</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link th:insert="index::style">
+    <th:block th:insert="re-index::metadata"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 </head>
 <body>
-    <div th:insert="index::header"/>
-    <div style="margin-top: 15px;" class="container"  >
-        <div class="pack-container" th:each="pack:${packs}">
-            <div class="pack-logo"><a th:href="@{/pack/{id}(id=${pack.id})}" class="fa fa-eye" style="font-size:20px;color: #e0e0e0; text-decoration: none;"></a></div>
-            <div class="pack-content" >
-                <h2 th:text="${pack.name}"/>
-                <p th:text="${pack.description}"/>
+    <div th:insert="re-index::header"/>
+    <div class="section">
+        <div th:each="pack:${packs}" class="info-container">
+            <div id="w-node-e54d0df80587-65e75e2a" class="div-block-21">
+                <div class="hits">author:</div>
+                <div class="text-block-2"><span th:text="${pack.user.getUsername()}" id="author" class="meta-info"/></div>
             </div>
-            <div th:if="${pack.isFavorite()}" class="pack-stats-view" style="border-radius: 0px 10px 10px 0px; background-color: #555555;"><a th:href="@{/pack/{id}/fromFavorites(id=${pack.id})}" class="fa fa-star"
-                                                                                                                                              style="font-size:20px;color: white; text-decoration: none; "></a></div>
-            <div th:unless="${pack.isFavorite()}" class="pack-stats-view" style="border-radius: 0px 10px 10px 0px; background-color: #555555; "><a th:href="@{/pack/{id}/toFavorites(id=${pack.id})}" class="fa fa-star-o"
-                                                                                                                                                   style="font-size:20px;color: white; text-decoration: none; "></a></div>
+            <div id="w-node-e54d0df8058d-65e75e2a" class="div-block-8">
+                <div class="hits">language:</div>
+                <div class="text-block-7"><span id="language" class="text-span-9" th:text="${pack.first_ln}+' - '+${pack.second_ln}"/></div>
+                <div class="hits">type:</div>
+                <div class="text-block-7"><span id="type" class="text-span-9" th:text="${pack.type}"/></div>
+            </div>
+            <div id="w-node-e54d0df8059a-65e75e2a" class="div-block-22">
+                <div class="hits">description:</div>
+                <p class="description" th:text="${pack.description}"/></div>
+            <div id="w-node-e54d0df8059f-65e75e2a" class="div-block-10">
+                <div class="div-block-10">
+                    <div class="div-block-24">
+                        <a th:href="@{/pack/{id}/delete(id=${pack.id})}" class="delete w-button">Delete</a>
+                        <a th:href="@{/pack/{id}/train(id=${pack.id})}" class="train w-button">Train</a>
+                        <a th:href="@{/pack/{id}(id=${pack.id})}" class="view w-button">View</a>
+                    </div>
+                </div>
+            </div>
+            <div id="w-node-e54d0df805aa-65e75e2a" class="div-block-9"><a th:classappend="${pack.favorite} ? liked-button" th:text="${pack.favorite} ? 'Liked':'Like'" th:href="${pack.favorite} ? ${pack.id}+'/fromFavorites':${pack.id}+'/toFavorites'" class="like w-button"/></div>
+            <div id="w-node-e54d0df805ad-65e75e2a" class="div-block-23">
+                <div class="hits">name:</div>
+                <div class="text-block-6"><strong class="name" th:text="${pack.name}"/></div>
+            </div>
         </div>
     </div>
 </body>
