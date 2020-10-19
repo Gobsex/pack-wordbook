@@ -5,35 +5,28 @@
     <meta charset="UTF-8">
     <title>Login</title>
 
-    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    <link th:insert="re-index::style"/>
 </head>
 
 <body>
-<!--<form  th:action="@{/login}" method="post" >-->
-<!--    -->
-<!--    <p th:if="${param.error}">Incorrect username or password</p>-->
 
-<!--    <div class="form_group">-->
-<!--        <input id="username" class="form_input" type="text" placeholder="Username"/>-->
-<!--    </div>-->
-<!--    <div class="form_group">-->
-<!--        <input id="password" class="form_input" type="password" placeholder="Password"/>-->
-<!--    </div>-->
-<!--    <input class="form_button" value="Login" type="submit"/>-->
-<!--</form>-->
-
-
-
-    <form th:action="@{/login}" method="post" class="form">
+<div class="form-container">
+    <form th:action="@{/login}" method="post" class="login-form">
         <h1 class="form_title">Login</h1><br/>
+
         <div class="form_group">
-            <input class="form_input" type="text" name="username" required />
+            <input placeholder="Username" class="form_input" type="text" name="username" required/>
         </div>
         <div class="form_group">
-            <input class="form_input" type="password" name="password" required />
+            <input placeholder="Password" class="form_input" type="password" name="password" required/>
         </div>
-        <input class="form_button" type="submit" value="Login" />
-        <div class="form-hits" >Don't have account?<div><a href="/registration">Sing up</a></div></div>
+        <div class="form-error" th:if="${error}">Invalid password or username</div>
+
+        <input class="form_button" type="submit" value="Login"/>
+        <div class="form-hits">Don't have account?
+            <div><a href="/registration">Sing up</a></div>
+        </div>
     </form>
+</div>
 </body>
 </html>

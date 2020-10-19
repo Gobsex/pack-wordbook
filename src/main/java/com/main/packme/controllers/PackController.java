@@ -50,7 +50,7 @@ public class PackController {
     public String selectFavorite(Authentication auth, ModelMap model) {
         String username = auth.getName();
         List<Pack> packList = userService.findFavoritePacks(username);
-        List<Pack> packs = userService.loadFavorite(username, packList);
+        List<Pack> packs = userService.loadPack(username, packList);
         model.addAttribute("isAll", true);
         model.addAttribute("packs", packs);
         return "packs";
@@ -60,7 +60,7 @@ public class PackController {
     public String selectPublic(Authentication auth, ModelMap model) {
         String username = auth.getName();
         List<Pack> packList = userService.findAllPublicPacks(username);
-        List<Pack> packs = userService.loadFavorite(username, packList);
+        List<Pack> packs = userService.loadPack(username, packList);
 
         model.addAttribute("isPublic", true);
 
@@ -72,7 +72,7 @@ public class PackController {
     public String selectPrivate(Authentication auth, ModelMap model) {
         String username = auth.getName();
         List<Pack> packList = userService.findAllPrivatePacks(username);
-        List<Pack> packs = userService.loadFavorite(username, packList);
+        List<Pack> packs = userService.loadPack(username, packList);
 
         model.addAttribute("isPrivate", true);
 
@@ -81,7 +81,10 @@ public class PackController {
     }
 
     @GetMapping("/{id}")
-    public String select(@PathVariable(value = "id") long id, Authentication auth, ModelMap model) {
+    public String select(@PathVariable(value = "id") long id,
+                         Authentication auth,
+                         @RequestHeader(value = "referer")String referer,
+                         ModelMap model) {
         if(userService.isFavorite(auth.getName(),id)){
             model.addAttribute("favorite", true);
         }
@@ -94,7 +97,8 @@ public class PackController {
             Pack pack = packService.findById(id);
             model.addAttribute("pack", pack);
             return "view-pack";
-        } else return "pack-not-found";
+        }
+        else return "redirect:/pack/all";
     }
 
     @GetMapping("/{id}/edit")
@@ -110,43 +114,17 @@ public class PackController {
 
             model.addAttribute("pack", pack);
             return "edit-general";
-        } else return "pack-not-found";
+        } else return "redirect:/pack/all";
     }
 
 
 
 
-    @GetMapping("/{id}/edit-ln")
-    public String editLn(@PathVariable(value = "id") long id,
-                       Authentication auth,
-                       ModelMap model) {
-        if(userService.isFavorite(auth.getName(),id)){
-            model.addAttribute("favorite", true);
-        }
-        if (userService.isEditable(auth.getName(), id)) {
-            Pack pack = packService.findById(id);
-            model.addAttribute("isEditable", true);
-            model.addAttribute("pack", pack);
-            return "edit-ln";
-        } else return "pack-not-found";
-    }
 
 
 
-//    @PostMapping(value = "/{id}/edit-ln", params = "save_ln")
-//    public String saveLn(@PathVariable(value = "id") long id,
-//                       @Param(value = "firstLn") String firstLn,
-//                       @Param(value = "secondLn") String secondLn,
-//                       Authentication auth,
-//                       ModelMap model) {
-//        if(userService.isFavorite(auth.getName(),id)){
-//            model.addAttribute("favorite", true);
-//        }
-//        if (userService.isEditable(auth.getName(), id)) {
-//            packService.saveLn(id,firstLn,secondLn);
-//        }
-//        return "redirect:/pack/" + id;
-//    }
+
+
 
 
     @PostMapping(value = "/{id}/edit", params = "save_general")
@@ -167,22 +145,7 @@ public class PackController {
     }
 
 
-    //    @PostMapping(value = "/{id}/edit",params = "add")
-//    public String addWord(
-//            @PathVariable(value = "id")long id,
-//            @RequestParam String key,
-//            @RequestParam String value,
-//            Model model){
-//        Pack pack = packService.findById(id);
-//        WordList wordList = pack.getWordList();
-//        if(wordList==null){
-//            wordList = new WordList();
-//        }
-//        wordList.add(new Word(key,value));
-//        pack.setWordList(wordList);
-//        packService.savePack(pack);
-//        return "redirect:/pack/"+ pack.getId()+ "/edit";
-//    }
+
     @PostMapping(value = "/{id}", params = "add")
     public String addWordInView(
             @PathVariable(value = "id") long id,
@@ -214,17 +177,16 @@ public class PackController {
         if (key != "" || value != "") {
             if (key == "" || key == null) {
                 String translation = translate.getTranslation(value, pack.getSecond_ln(), pack.getFirst_ln());
-                System.out.println(translation);
                 model.addAttribute("value", value);
                 model.addAttribute("key", translation);
             }
             if (value == "" || value == null) {
                 String translation = translate.getTranslation(key, pack.getFirst_ln(), pack.getSecond_ln());
-                System.out.println(translation);
                 model.addAttribute("key", key);
                 model.addAttribute("value", translation);
             }
         }
+
         if (key != "" && value != "") {
             model.addAttribute("key", key);
             model.addAttribute("value", value);
@@ -240,11 +202,21 @@ public class PackController {
     @GetMapping("/{id}/delete")
     public String deletePack(@PathVariable(value = "id") long id,
                              Authentication auth,
+                             @RequestHeader(value = "referer", required = false)String referer,
+
                              ModelMap model){
         if (userService.isEditable(auth.getName(), id)) {
             userService.removePack(auth.getName(),id);
         }
-        return "redirect:/pack/all";
+        String redirect;
+        if(referer=="http://localhost:8080/pack/"+id){
+            redirect = "/pack/all";
+        }
+        else {
+            redirect = referer;
+        }
+        System.out.println(redirect);
+        return "redirect:"+redirect;
     }
     @GetMapping("/{id}/remove/{wordId}")
     public String removeWord(@PathVariable(value = "id") long id,
@@ -287,8 +259,6 @@ public class PackController {
         }
         return "train";
     }
-
-
 
 
 

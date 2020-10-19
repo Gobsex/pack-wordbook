@@ -88,6 +88,9 @@ public class UserService implements UserDetailsService {
 
     public boolean isSelectable(String username,long packId){
         Pack pack = packsRepository.findById(packId);
+        if (pack==null){
+            return false;
+        }
         if(pack.getType().equals("public")||pack.getUser().getUsername().equals(username)){
             return true;
         }
@@ -96,6 +99,9 @@ public class UserService implements UserDetailsService {
     public boolean isFavorite(String username, long packId){
         User user = userRepository.findByUsername(username);
         Pack pack = packsRepository.findById(packId);
+        if(pack==null){
+            return false;
+        }
         List<Pack> favoritePacks = user.getFavoritePacks();
         for (Pack ipack:favoritePacks) {
             if(ipack.getId()==pack.getId()){
@@ -110,6 +116,42 @@ public class UserService implements UserDetailsService {
         List<Pack> favoritePacks = user.getFavoritePacks();
         for (int i = 0; i < favoritePacks.size(); i++) {
             for (int j = 0; j < packs.size(); j++) {
+                if(favoritePacks.get(i).getId()==packs.get(j).getId()){
+
+                    packs.get(j).setFavorite(true);
+                }
+            }
+        }
+        return packs;
+    }
+    public List<Pack> loadEditable(String username,List<Pack> packs){
+        User user = userRepository.findByUsername(username);
+
+        for (int i = 0; i < packs.size(); i++) {
+            if (packs.get(i).getUser().getUsername() == username) {
+                packs.get(i).setEditable(true);
+            }
+            else {
+                packs.get(i).setEditable(false);
+            }
+        }
+        return packs;
+    }
+    public List<Pack> loadPack(String username,List<Pack> packs){
+        User user = userRepository.findByUsername(username);
+
+        List<Pack> favoritePacks = user.getFavoritePacks();
+        for (int i = 0; i < favoritePacks.size(); i++) {
+
+            for (int j = 0; j < packs.size(); j++) {
+
+                if (packs.get(j).getUser().getUsername().equals( username)) {
+
+                    packs.get(j).setEditable(true);
+                }
+                else{
+                    packs.get(j).setEditable(false);
+                }
                 if(favoritePacks.get(i).getId()==packs.get(j).getId()){
                     packs.get(j).setFavorite(true);
                 }

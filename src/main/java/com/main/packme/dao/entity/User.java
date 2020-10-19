@@ -15,9 +15,9 @@ public class User implements UserDetails{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Size(min=2, message = "Не меньше 2 знаков")
+    @Size(min=2, message = "Too short")
     private String username;
-    @Size(min=2, message = "Не меньше 2 знаков")
+    @Size(min=2, message = "Too short")
     private String password;
     @Transient
     private String passwordConfirm;
@@ -48,8 +48,9 @@ public class User implements UserDetails{
         if(favoritePacks==null){
             favoritePacks = new ArrayList<>();
         }
-        System.out.println("added");
-        favoritePacks.add(pack);
+        if(!favoritePacks.contains(pack)){
+            favoritePacks.add(pack);
+        }
     }
 
 

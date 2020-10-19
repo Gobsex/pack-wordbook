@@ -3,10 +3,19 @@
       xmlns:th="http://www.thymeleaf.org">
 <head >
     <meta charset="utf-8">
-    <title>Business - Webflow HTML website template</title>
+    <title>Index</title>
 
     <th:block th:fragment="metadata">
+        <script type="text/javascript">WebFont.load({google: {families: ["Montserrat:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic"]}});</script>
 
+        <link
+                rel="stylesheet"
+                href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+        />
+<!--        <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>-->
+<!--        <script>-->
+<!--            new WOW().init();-->
+<!--        </script>-->
         <meta content="width=device-width, initial-scale=1" name="viewport">
         <link th:fragment="style" rel="stylesheet" type="text/css" href="../static/css/new.css"
               th:href="@{/css/new.css}">
@@ -26,7 +35,7 @@
             var n = c.documentElement, t = " w-mod-";
             n.className += t + "js", ("ontouchstart" in o || o.DocumentTouch && c instanceof DocumentTouch) && (n.className += t + "touch")
         }(window, document);</script>
-        <link href="https://uploads-ssl.webflow.com/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
+        <link  href="https://uploads-ssl.webflow.com/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
         <link href="https://uploads-ssl.webflow.com/img/webclip.png" rel="apple-touch-icon">
         <script type="text/javascript">window.__WEBFLOW_CURRENCY_SETTINGS = {
             "currencyCode": "USD",
@@ -42,15 +51,15 @@
 </head>
 <body>
 <div th:fragment="header">
-    <div data-collapse="medium" data-animation="default" data-duration="400" role="banner" class="navigation w-nav">
+    <div data-collapse="medium" data-animation="default" data-duration="400" role="banner" id="header" class="navigation w-nav wow">
 
         <div class="navigation-wrap"><a href="index.htm" aria-current="page"
-                                        class="logo-link w-nav-brand w--current"></a>
+                                        class="logo-link w-nav-brand w--current "></a>
             <div class="menu">
-                <nav role="navigation" class="navigation-items w-nav-menu"><a href="/about"
-                                                                              class="navigation-item w-nav-link">About</a><a
-                        href="/pack/all" class="navigation-item w-nav-link">packs</a><a href="/search"
-                                                                                        class="navigation-item w-nav-link">search</a>
+                <nav role="navigation" class="navigation-items w-nav-menu"><a href="/"
+                                                                              class="navigation-item w-nav-link next-page">About</a><a
+                        href="/pack/all" class="navigation-item w-nav-link next-page">packs</a><a href="/search"
+                                                                                        class="navigation-item w-nav-link next-page">search</a>
                 </nav>
                 <div class="menu-button w-nav-button"><img
                         src="https://uploads-ssl.webflow.com/5edf88c90da8305f74cd8753/5edf88d6d5a75861d5e75e37_menu-icon.png"

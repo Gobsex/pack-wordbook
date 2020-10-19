@@ -8,36 +8,63 @@
 
 </head>
 <body>
+<script th:inline="javascript">
+
+    let referrer = document.referrer;
+    let url = document.URL;
+
+    $(document).ready(function () {
+        $('.pack-container').addClass('animate__fadeInLeft');
+        $('.extra-info-block,.main-info-block,.button-container').addClass('animate__fadeIn');
+        $('a,button').on('click', function () {
+            $('.section,.pack-container,#header').addClass('animate__fadeOut');
+        });
+    });
+
+</script>
     <div th:insert="re-index::header"/>
-    <div class="section">
-        <div th:each="pack:${packs}" class="info-container">
-            <div id="w-node-e54d0df80587-65e75e2a" class="div-block-21">
-                <div class="hits">author:</div>
-                <div class="text-block-2"><span th:text="${pack.user.getUsername()}" id="author" class="meta-info"/></div>
+    <div class="section animate__animated">
+        <h5 th:if="${packs.size()==0}">no packs</h5>
+
+        <div th:each="pack:${packs}" class="pack-container animate__animated">
+            <div class="extra-info animate__animated">
+                <div class="extra-info-block animate__animated">
+                    <div class="hits">author:</div>
+                    <div th:text="${pack.user.getUsername()}" class="meta-info"/>
+                </div>
+                <div class="extra-info-block animate__animated">
+                    <div class="hits">language:</div>
+                    <div class="meta-info" th:text="${pack.first_ln}+' - '+${pack.second_ln}"/>
+                </div>
+                <div class="extra-info-block animate__animated">
+                    <div class="hits">type:</div>
+                    <div class="meta-info" th:text="${pack.type}"/>
+                </div>
+
+                <a id="like" th:classappend="${pack.favorite} ? liked-button" th:text="${pack.favorite} ? 'Liked':'Like'"
+                   th:href="${pack.favorite} ? @{/pack/{id}/fromFavorites(id=${pack.id})}:@{/pack/{id}/toFavorites(id=${pack.id})}"
+                   class="w-button like animate__animated"/>
             </div>
-            <div id="w-node-e54d0df8058d-65e75e2a" class="div-block-8">
-                <div class="hits">language:</div>
-                <div class="text-block-7"><span id="language" class="text-span-9" th:text="${pack.first_ln}+' - '+${pack.second_ln}"/></div>
-                <div class="hits">type:</div>
-                <div class="text-block-7"><span id="type" class="text-span-9" th:text="${pack.type}"/></div>
-            </div>
-            <div id="w-node-e54d0df8059a-65e75e2a" class="div-block-22">
-                <div class="hits">description:</div>
-                <p class="description" th:text="${pack.description}"/></div>
-            <div id="w-node-e54d0df8059f-65e75e2a" class="div-block-10">
-                <div class="div-block-10">
-                    <div class="div-block-24">
-                        <a th:href="@{/pack/{id}/delete(id=${pack.id})}" class="delete w-button">Delete</a>
-                        <a th:href="@{/pack/{id}/train(id=${pack.id})}" class="train w-button">Train</a>
-                        <a th:href="@{/pack/{id}(id=${pack.id})}" class="view w-button">View</a>
-                    </div>
+            <div class="main-info animate__animated">
+                <div class="main-info-block animate__animated">
+                    <div class="hits">name:</div>
+                    <div th:text="${pack.name}" class="pack-name"/>
+                </div>
+                <div class="main-info-block animate__animated">
+                    <div th:classappend="${pack.description==''}? 'hidden'" class="hits">description:</div>
+                    <div class="pack-description" th:text="${pack.description}"/>
+                </div>
+
+                <div class="button-container animate__animated">
+                    <a class="w-button like-hidden" id="like-hidden" th:classappend="${pack.favorite} ? liked-button" th:text="${pack.favorite} ? 'Liked':'Like'"
+                       th:href="${pack.favorite} ? @{/pack/{id}/fromFavorites(id=${pack.id})}:@{/pack/{id}/toFavorites(id=${pack.id})}"/>
+                    <a th:href="@{/pack/{id}/delete(id=${pack.id})}" class="delete w-button">Delete</a>
+                    <a th:href="@{/pack/{id}/train(id=${pack.id})}" class="train w-button">Train</a>
+                    <a th:href="@{/pack/{id}(id=${pack.id})}" class="view w-button">View</a>
                 </div>
             </div>
-            <div id="w-node-e54d0df805aa-65e75e2a" class="div-block-9"><a th:classappend="${pack.favorite} ? liked-button" th:text="${pack.favorite} ? 'Liked':'Like'" th:href="${pack.favorite} ? ${pack.id}+'/fromFavorites':${pack.id}+'/toFavorites'" class="like w-button"/></div>
-            <div id="w-node-e54d0df805ad-65e75e2a" class="div-block-23">
-                <div class="hits">name:</div>
-                <div class="text-block-6"><strong class="name" th:text="${pack.name}"/></div>
-            </div>
+
         </div>
     </div>
+
 </body>

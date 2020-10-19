@@ -1,17 +1,36 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
+    <title>About</title>
     <th:block th:insert="re-index::metadata"/>
 </head>
 <body>
     <div th:insert="re-index::header"/>
-    <div class="container-3 w-container"><a href="/pack/all" id="w-node-5aeb6d493ac4-4be75e1e"
-                                            class="button-2 w-button">Train</a></div>
+    <div class="about-project">
+        <h1>About Project</h1>
+    </div>
+    <div class="home">
+
+        <div class="wat-for-container">
+            <div class="first-container">
+                <h2>What for?</h2>
+            </div>
+            <div class="second-container">
+            <p>This is a platform for learning foreign words or sentences. You can create your own pack of words or use packs from other users</p>
+            </div>
+        </div>
+        <div class="wat-for-container">
+
+            <div class="first-container order2">
+                <h2 >Technologies used</h2>
+            </div>
+            <div   class="second-container order1">
+                <p>it's just a spring boot application with spring security connected. For database I used hibernate and mysql. <a>Link to github</a></p>
+
+            </div>
+        </div>
+    </div>
 </body>
 </html>

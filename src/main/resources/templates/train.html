@@ -3,7 +3,7 @@
 <head>
     <title>Home</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link th:insert="index::style">
+    <th:block th:insert="re-index::metadata"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://kit.fontawesome.com/c0c3d5a6d0.js" crossorigin="anonymous"></script>
     <!--    <script src="../js/jquery-3.5.1.min.js"></script>-->
@@ -12,40 +12,54 @@
 
 </head>
 <body>
-<div th:insert="index::header"/>
-<div class="train-container">
+<div th:insert="re-index::header"/>
+<div class="section">
 
-    <div id="mode">
-        <div class="mode" id="default" th:text="${pack.first_ln}+'->'+${pack.second_ln}"/>
-        <div class="mode" id="backward" th:text="${pack.second_ln}+'->'+${pack.first_ln}"/>
-        <div class="mode" id="random" th:text="Random"/>
-
-
+    <div id="mode" class="mode-container">
+        <div class="text-block-13">Train mode</div>
+        <div id="default" th:text="${pack.first_ln}+'->'+${pack.second_ln}" class="mode"/>
+        <div id="backward" th:text="${pack.second_ln}+'->'+${pack.first_ln}" class="mode"/>
+        <div id="random" th:text="random" class="mode"/>
     </div>
+
+
+    <!--    <div id="mode">-->
+<!--        <div class="mode" id="default" th:text="${pack.first_ln}+'->'+${pack.second_ln}"/>-->
+<!--        <div class="mode" id="backward" th:text="${pack.second_ln}+'->'+${pack.first_ln}"/>-->
+<!--        <div class="mode" id="random" th:text="Random"/>-->
+
+
+<!--    </div>-->
+
+
+
+
+
     <div id="train" class="hidden">
-        <div class="train-pack-name" id="name" th:text="${pack.name}"></div>
 
-        <div class="train-top-container">
-            <div class="train-timer" id="timer">00:00</div>
-            <div></div>
-            <div class="train-rigth-counter" id="rigth">0</div>
-            <div class="train-wrong-counter" id="wrong">0</div>
-            <div></div>
-
-            <div class="train-check">
-                <button class="fa fa-play"
-                        style="font-size:20px;color: black; text-decoration: none;" id="newWord"></button>
+        <div class="div-block-28">
+            <div id="timer" class="div-block-29">00:00</div>
+            <div id="name" th:text="${pack.name}" class="div-block-33"/>
+            <div class="div-block-30">
+                <div id="rigth" class="div-block-31">0</div>
+                <div id="wrong" class="div-block-32">0</div>
             </div>
-
         </div>
-        <div id="correct"></div>
-        <div class="train-word-neutral" id="word-container"><span id="icon-correct"
-                                                                  style="font-size:20px;color: black; text-decoration: none;transition: 0.6s;"> </span><span
-                id="word" style="text-align: center"></span></div>
-        <div class="train-translate"><input id="translate"></div>
+        <div class="train-contaiter">
+            <div id="word-container" class="div-block-25">
+                <div id="word" class="neutral-1"></div>
+                <div id="state" class="neutral-2"></div>
+            </div>
+            <div class="anser-container">
+                <div class="form-block-5 w-form">
+                    <input type="text" class="text-field-5 w-input" placeholder="Translate" id="translate" required=""/>
+                </div>
+                <button id="newWord" class="check w-button">Check</button>
+
+            </div>
+        </div>
     </div>
 </div>
-
 
 <script th:inline="javascript">
     var seconds = 0;
@@ -116,29 +130,26 @@
 
 
         $('#newWord').on('click', function () {
-            if ($('#newWord').attr('class') == 'fa fa-arrow-right') {
+            if ($('#word-container').attr('class') == 'div-block-25 incorrect') {
                 clear();
             } else {
                 if ($('#translate').val().toUpperCase() == value.toUpperCase()) {
 
                     right++;
-                    $('#rigth').text(right);
-                    $('#word-container').removeClass('train-word-neutral');
-                    $('#word-container').addClass('train-word-correct');
-                    $('#icon-correct').addClass('fa fa-check');
-                    $('#icon-correct').addClass('icon-correct');
+                    $('#word-container').addClass('correct');
+                    $('#state').text('Correct');
 
                     setTimeout(clear, 700);
+                    $('#rigth').text(right);
+
                 } else {
                     wrong++;
 
                     $('#word').text(value);
-                    $('#word-container').removeClass('train-word-neutral');
-                    $('#word-container').addClass('train-word-wrong');
-                    $('#newWord').removeClass('fa fa-play')
-                    $('#newWord').addClass('fa fa-arrow-right')
-                    $('#icon-correct').addClass('fa fa-times-circle-o');
-                    $('#icon-correct').addClass('icon-correct');
+                    $('#word-container').addClass('incorrect');
+                    $('#state').text('Incorrect');
+
+                    $('#newWord').text('Next');
 
                     $('#wrong').text(wrong);
                 }
@@ -168,15 +179,15 @@
         function clear() {
             $('#translate').val("");
             $('#correct').text("");
-            $('#word-container').removeClass();
-            $('#word-container').addClass('train-word-neutral');
-            $('#newWord').removeClass('fa fa-arrow-right')
+            $('#word-container').removeClass('incorrect');
+            $('#word-container').removeClass('correct');
+
+            $('#newWord').text('Check');
             $('#translate').focus();
-            $('#icon-correct').removeClass();
-            $('#newWord').addClass('fa fa-play')
+            $('#state').text("");
             value = getValue(words);
         }
     });
 </script>
-</div>
+
 </body>

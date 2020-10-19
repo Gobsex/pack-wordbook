@@ -34,6 +34,21 @@ public class Pack{
     private User user;
     @Transient
     private boolean favorite;
+    @Transient
+
+    private boolean editable;
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public boolean isEditable() {
+        return editable;
+    }
+
+    public void setEditable(boolean editable) {
+        this.editable = editable;
+    }
 
     public boolean isFavorite() {
         return favorite;

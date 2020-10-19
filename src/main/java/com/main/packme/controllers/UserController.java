@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 
@@ -20,28 +21,21 @@ public class UserController {
 
 
     @GetMapping("/login")
-    public String login(Model model) {
-//        model.addAttribute("userForm", new User());
+    public String login(@RequestParam(name = "error",   required = false) String error, Model model) {
+        try {
+            if(error.equals("")&&error!=null){
+                model.addAttribute("error", true);
+            }
+        }
+        catch (NullPointerException e){
+
+        }
+
 
         return "login";
     }
 
-//    @PostMapping("/login")
-//    public String singIn(@ModelAttribute("userForm") @Valid User userForm, BindingResult bindingResult, Model model) {
-//
-//        if (bindingResult.hasErrors()) {
-//            return "login";
-//        }
-//        if (!userForm.getPassword().equals(userForm.getPasswordConfirm())){
-//            model.addAttribute("passwordError", "Пароли не совпадают");
-//            return "login";
-//        }
-//        if (!userService.saveUser(userForm)){
-//            model.addAttribute("usernameError", "Пользователь с таким именем уже существует");
-//            return "login";
-//        }
-//        return "redirect:/login";
-//    }
+
 
     @GetMapping("/registration")
     public String registration(Model model) {
@@ -52,18 +46,22 @@ public class UserController {
 
     @PostMapping("/registration")
     public String addUser(@ModelAttribute("userForm") @Valid User userForm, BindingResult bindingResult, Model model) {
-
-        if (bindingResult.hasErrors()) {
-            return "registration";
-        }
         if (!userForm.getPassword().equals(userForm.getPasswordConfirm())){
-            model.addAttribute("passwordError", "Пароли не совпадают");
+            model.addAttribute("passwordError", true);
             return "registration";
+
         }
         if (!userService.saveUser(userForm)){
-            model.addAttribute("usernameError", "Пользователь с таким именем уже существует");
+            model.addAttribute("usernameError", true);
+            return "registration";
+
+        }
+        if (bindingResult.hasErrors()) {
+
+
             return "registration";
         }
+
         return "redirect:/login";
     }
 }

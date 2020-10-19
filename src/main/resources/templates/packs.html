@@ -3,89 +3,85 @@
 <head>
     <title>Packs</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" type="text/css" href="../static/css/style.css" th:href="@{/css/style.css}" >
-<!--    <link href='https://css.gg/add-r.css' rel='stylesheet'>-->
+    <th:block th:insert="re-index::metadata"/>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://kit.fontawesome.com/c0c3d5a6d0.js" crossorigin="anonymous"></script>
 
-    <th:block th:insert="re-index::metadata"/>
 </head>
 <body>
+<script th:inline="javascript">
+
+    let referrer = document.referrer;
+    let url = document.URL;
+
+    $(document).ready(function () {
+        $('.grey-header-container,.tabs-container,#noPacks,.extra-info-block,.main-info-block,.button-container').addClass('animate__fadeIn');
+        $('.pack-container').addClass('animate__fadeInLeft');
+        $('a').on('click', function () {
+            $('.section,.grey-header-container,.pack-container,#header').addClass('animate__fadeOut');
+        });
+    });
+
+</script>
 <div th:insert="re-index::header"/>
 
 
-<div class="container-5 w-container">
-    <div class="div-block-12">
-        <a href="/pack/all" class="tabs liked-tab w-button" th:classappend="${isAll} ? selected:''">Liked</a>
-        <a href="/pack/public" class="tabs public w-button" th:classappend="${isPublic} ? selected:''">Public</a>
-        <a  href="/pack/private" class="tabs private w-button" th:classappend="${isPrivate} ? selected:''">Private</a>
-        <a  href="/pack/add" class="add-pack w-button">Add</a></div>
-</div>
-<div class="section">
-    <div th:each="pack:${packs}" class="info-container">
-        <div id="w-node-e54d0df80587-65e75e2a" class="div-block-21">
-            <div class="hits">author:</div>
-            <div class="text-block-2"><span th:text="${pack.user.getUsername()}" id="author" class="meta-info"/></div>
+<div class="grey-header-container animate__animated   ">
+    <div class="tabs-container animate__animated">
+        <div>
+            <a href="/pack/all" class="tabs liked-tab w-button" th:classappend="${isAll} ? selected:''">Liked</a>
+            <a href="/pack/public" class="tabs public w-button" th:classappend="${isPublic} ? selected:''">Public</a>
+            <a  href="/pack/private" class="tabs private w-button" th:classappend="${isPrivate} ? selected:''">Private</a>
         </div>
-        <div id="w-node-e54d0df8058d-65e75e2a" class="div-block-8">
-            <div class="hits">language:</div>
-            <div class="text-block-7"><span id="language" class="text-span-9" th:text="${pack.first_ln}+' - '+${pack.second_ln}"/></div>
-            <div class="hits">type:</div>
-            <div class="text-block-7"><span id="type" class="text-span-9" th:text="${pack.type}"/></div>
-        </div>
-        <div id="w-node-e54d0df8059a-65e75e2a" class="div-block-22">
-            <div class="hits">description:</div>
-            <p class="description" th:text="${pack.description}"/></div>
-        <div id="w-node-e54d0df8059f-65e75e2a" class="div-block-10">
-            <div class="div-block-10">
-                <div class="div-block-24">
-                    <a th:href="@{/pack/{id}/delete(id=${pack.id})}" class="delete w-button">Delete</a>
-                    <a th:href="@{/pack/{id}/train(id=${pack.id})}" class="train w-button">Train</a>
-                    <a th:href="@{/pack/{id}(id=${pack.id})}" class="view w-button">View</a>
-                </div>
-            </div>
-        </div>
-        <div id="w-node-e54d0df805aa-65e75e2a" class="div-block-9"><a th:classappend="${pack.favorite} ? liked-button" th:text="${pack.favorite} ? 'Liked':'Like'" th:href="${pack.favorite} ? ${pack.id}+'/fromFavorites':${pack.id}+'/toFavorites'" class="like w-button"/></div>
-        <div id="w-node-e54d0df805ad-65e75e2a" class="div-block-23">
-            <div class="hits">name:</div>
-            <div class="text-block-6"><strong class="name" th:text="${pack.name}"/></div>
-        </div>
+        <a  href="/pack/add" class="w-button add-pack">Add</a>
     </div>
 </div>
-<!--<div class="tab-container">-->
-<!--    <a href="/pack/all" class="link">-->
-<!--        <div th:class="${isAll} ? tab-selected:tab">Favorite</div>-->
-<!--    </a>-->
-<!--    <a href="/pack/private" class="link">-->
-<!--        <div th:class="${isPrivate} ? tab-selected:tab">Private</div>-->
-<!--    </a>-->
-<!--    <a href="/pack/public" class="link">-->
-<!--        <div th:class="${isPublic} ? tab-selected:tab">Public</div>-->
-<!--    </a>-->
-<!--    <div></div>-->
-<!--    <div><a href="/pack/add" class="fas fa-plus-square"-->
-<!--            style="font-size: 30px; color: #676767; text-decoration: none; padding-top: 10px; padding-right: 13px" ;-->
-<!--    ></a></div>-->
+<div class="section animate__animated">
+    <h5 id="noPacks" th:if="${packs.size()==0}" class="animate__animated ">no packs</h5>
 
-<!--</div>-->
-<!--<div class="container">-->
-<!--    <div class="pack-container" th:each="pack:${packs}">-->
-<!--        <div class="pack-logo"><a th:href="${pack.id}" class="fa fa-eye"-->
-<!--                                  style="font-size:20px;color: #e0e0e0; text-decoration: none;"></a></div>-->
-<!--        <div class="pack-content">-->
-<!--            <h2 th:text="${pack.name}"/>-->
-<!--            <p th:text="${pack.description}"/>-->
-<!--        </div>-->
-<!--        <div th:if="${pack.isFavorite()}" class="pack-stats-view"-->
-<!--             style="border-radius: 0px 10px 10px 0px; background-color: #555555;"><a-->
-<!--                th:href="@{/pack/{id}/fromFavorites(id=${pack.id})}" class="fa fa-star"-->
-<!--                style="font-size:20px;color: white; text-decoration: none; "></a></div>-->
-<!--        <div th:unless="${pack.isFavorite()}" class="pack-stats-view"-->
-<!--             style="border-radius: 0px 10px 10px 0px; background-color: #555555; "><a-->
-<!--                th:href="@{/pack/{id}/toFavorites(id=${pack.id})}" class="fa fa-star-o"-->
-<!--                style="font-size:20px;color: white; text-decoration: none; "></a></div>-->
-<!--    </div>-->
-<!--    <div th:if="${packs.size()==0}" style="padding: 10px"><H2>You have no packs</H2></div>-->
-<!--</div>-->
+    <div th:each="pack:${packs}" id="pack-container" class="pack-container animate__animated ">
+        <div class="extra-info">
+            <div class="extra-info-block animate__animated">
+                <div class="hits ">author:</div>
+                <div th:text="${pack.user.getUsername()}" class="meta-info "/>
+            </div>
+            <div class="extra-info-block animate__animated">
+                <div class="hits ">language:</div>
+                <div class="meta-info " th:text="${pack.first_ln}+' - '+${pack.second_ln}"/>
+            </div>
+            <div class="extra-info-block animate__animated">
+                <div class="hits ">type:</div>
+                <div class="meta-info " th:text="${pack.type}"/>
+            </div>
+
+            <a id="like" th:classappend="${pack.favorite} ? liked-button" th:text="${pack.favorite} ? 'Liked':'Like'"
+               th:href="${pack.favorite} ? @{/pack/{id}/fromFavorites(id=${pack.id})}:@{/pack/{id}/toFavorites(id=${pack.id})}"
+               class="w-button like "/>
+        </div>
+        <div class="main-info">
+            <div class="main-info-block animate__animated">
+                <div class="hits">name:</div>
+                <div th:text="${pack.name}" class="pack-name"/>
+            </div >
+            <div class="main-info-block animate__animated">
+                <div th:classappend="${pack.description==''}? 'hidden'" class="hits">description:</div>
+                <div class="pack-description" th:text="${pack.description}"/>
+            </div>
+
+            <div class="button-container animate__animated ">
+                <a id="like-hidden" class="w-button like-hidden" th:classappend="${pack.favorite} ? liked-button" th:text="${pack.favorite} ? 'Liked':'Like'"
+                   th:href="${pack.favorite} ? @{/pack/{id}/fromFavorites(id=${pack.id})}:@{/pack/{id}/toFavorites(id=${pack.id})}"/>
+                <a th:classappend="${pack.isEditable()!=true}?'banned'" th:href="@{/pack/{id}/delete(id=${pack.id})}" id="delete" class="delete w-button">Delete</a>
+                <a th:href="@{/pack/{id}/train(id=${pack.id})}" id="train" class="train w-button next-page">Train</a>
+                <a th:href="@{/pack/{id}(id=${pack.id})}" id="view" class="view w-button next-page">View</a>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+
 </body>
 </html>

@@ -1,37 +1,50 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Add words</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://kit.fontawesome.com/c0c3d5a6d0.js" crossorigin="anonymous"></script>
+    <title>Edit</title>
+    <meta  content="text/html; charset=UTF-8" />
     <th:block th:insert="re-index::metadata"/>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/c0c3d5a6d0.js" crossorigin="anonymous"></script>
 
 </head>
 <body>
+<script th:inline="javascript">
+
+    let referrer = document.referrer;
+    let url = document.URL;
+
+    $(document).ready(function () {
+        $('.grey-header-container').addClass('animate__fadeIn');
+        $('.pack-container,#wordlist-container,.extra-info-block,.main-info-block,.button-container').addClass('animate__fadeIn');
+        $('a,button').on('click', function () {
+            $('.section,.div-block-14,.pack-container,#header').addClass('animate__fadeOut');
+        });
+    });
+
+</script>
 <div th:insert="re-index::header"/>
-<div class="div-block-14"></div>
+<div class="div-block-14 animate__animated fadeInDown"></div>
 
-<div class="section">
-    <div class="form-block-2 w-form">
-        <form th:action="@{/pack/{id}/edit(id=${pack.id})}" method="post"  class="form-2">
-            <div id="w-node-3b5cb05384a9-d8e75e2c" class="div-block-19">
-                <div class="hits">description:</div>
-                <textarea name="description" id="description-input-2" class="description-input w-input"
-                          style="margin: 0px 0px 0px 5px; width: 448px; height: 72px;" th:value="${pack.description}"></textarea>
+<div class="section animate__animated">
 
+    <form th:action="@{/pack/{id}/edit(id=${pack.id})}" method="post" class="pack-container animate__animated">
+        <div class="extra-info animate__animated">
+            <div class="extra-info-block animate__animated">
+                <div class="hits">author:</div>
+                <div th:text="${pack.user.getUsername()}" class="meta-info"/>
             </div>
-            <div id="w-node-2752c8d7d88e-d8e75e2c" class="div-block-8">
+            <div class="extra-info-block animate__animated">
                 <div class="hits">language:</div>
                 <div class="div-block-20">
                     <select id="firstLn" name="firstLn" class="liststyle w-select">
-                    <option th:selected="${pack.first_ln == 'ru'}? 'selected'" value="ru">ru</option>
-                    <option th:selected="${pack.first_ln == 'en'}? 'selected'" value="en" >en</option>
-                    <option th:selected="${pack.first_ln == 'uk'}? 'selected'" value="uk">uk</option>
+                        <option th:selected="${pack.first_ln == 'ru'}? 'selected'" value="ru">ru</option>
+                        <option th:selected="${pack.first_ln == 'en'}? 'selected'" value="en" >en</option>
+                        <option th:selected="${pack.first_ln == 'uk'}? 'selected'" value="uk">uk</option>
                     </select>
 
-                    <div class="text-block-12"> _ </div>
+                    <div class="text-block-12"> - </div>
 
 
                     <select id="secondLn" name="secondLn" class="liststyle w-select">
@@ -40,65 +53,77 @@
                         <option th:selected="${pack.second_ln == 'uk'}? 'selected'" value="uk">uk</option>
                     </select>
                 </div>
+            </div>
+            <div class="extra-info-block animate__animated">
                 <div class="hits">type:</div>
-                <select id="type" name="type" class="type w-select">
+                <select id="type" name="type" class="liststyle-type w-select">
                     <option th:selected="${pack.type == 'private'}? 'selected'" value="private">private</option>
                     <option th:selected="${pack.type == 'public'}? 'selected'" value="public">public</option>
-                </select></div>
-            <div id="w-node-5daa2d47949c-d8e75e2c" class="div-block-18">
+                </select>
+            </div>
+            <a th:classappend="${favorite} ? liked-button" th:text="${favorite} ? 'Liked':'Like'"
+               th:href="${favorite} ? @{/pack/{id}/fromFavorites(id=${pack.id})}:@{/pack/{id}/toFavorites(id=${pack.id})}"
+               class="w-button like animate__animated"/>
+        </div>
+        <div class="main-info animate__animated">
+            <div>
                 <div class="hits">name:</div>
                 <input type="text" th:value="${pack.name}" class="name-input w-input" maxlength="256" name="name" id="name-input-2" />
             </div>
-            <div id="w-node-3477c5f16554-d8e75e2c" class="div-block-9"><a th:classappend="${favorite} ? liked-button" th:text="${favorite} ? 'Liked':'Like'" th:href="${favorite} ? ${pack.id}+'/fromFavorites':${pack.id}+'/toFavorites'" class="like w-button"/></div>
-
-            <div id="w-node-2752c8d7d89b-d8e75e2c" class="div-block-10">
-
-
-                <div class="div-block-10">
-                    <div class="div-block-24">
-                        <a th:href="@{/pack/{id}/delete(id=${pack.id})}" class="delete w-button">Delete</a>
-                        <a th:href="@{/pack/{id}/train(id=${pack.id})}" class="train w-button">Train</a>
-                        <button name="save_general" type="submit" class="save w-button">Save</button>
-                    </div>
-                </div>
-                <!--                <div class="columns w-row">-->
-<!--                    <div class="column w-col w-col-4"><a href="/pack/1/delete" class="delete w-button">Delete</a></div>-->
-<!--                    <div class="w-col w-col-4"><a href="/pack/1/train" class="train w-button">Train</a></div>-->
-<!--                    <div class="w-col w-col-4 save" ><button name="save_general" type="submit" class="w-button">Save</button></div>-->
-<!--                </div>-->
+            <div>
+                <div class="hits">description:</div>
+                <textarea name="description"  class="description-input w-input"
+                          th:text="${pack.description}"></textarea>
             </div>
-            <div id="w-node-cf36cc660ee6-d8e75e2c" class="div-block-21">
-                <div class="hits">author:</div>
-                <div id="author" th:text="${pack.user.getUsername()}" class="meta-info"/>
+
+            <div class="button-container animate__animated">
+                <a class="w-button like-hidden" th:classappend="${favorite} ? liked-button" th:text="${favorite} ? 'Liked':'Like'"
+                   th:href="${favorite} ? @{/pack/{id}/fromFavorites(id=${pack.id})}:@{/pack/{id}/toFavorites(id=${pack.id})}"/>
+                <a th:href="@{/pack/{id}/delete(id=${pack.id})}" class="delete w-button">Delete</a>
+                <a th:href="@{/pack/{id}/train(id=${pack.id})}" class="train w-button">Train</a>
+                <button name="save_general" type="submit" class="save w-button">Save</button>
             </div>
-        </form>
+        </div>
+
+    </form>
+
+
+    <div th:fragment="wordlist" id="wordlist-container" class="wordlist-container animate__animated" th:styleappend="${pack.wordList.words.size()==0}?'padding:0;'">
+        <div th:classappend="${isEditable!=true} ? 'banned'" id="input-container" class="input-container animate__animated">
+            <div class="form-block w-form">
+                <form th:action="'/pack/'+${pack.id}" method="post" class="form">
+                    <button id="add"name="add" type="submit" class="add w-button1 animate__animated">Add</button>
+                    <input th:placeholder="${pack.first_ln}" type="text" name="key" th:value="${key}" class="input w-input animate__animated"  >
+                    <input th:placeholder="${pack.second_ln}" type="text" name="value" th:value="${value}" class="input w-input animate__animated">
+                    <button id="translate" name="translate" type="submit"  class=" translate w-button1 animate__animated">Translate</button>
+                    <span style="padding: 5px" class="translate-icon w-button1">
+                           <button name="translate" type="submit"  class="fas fa-language animate__animated " style="font-size:27px;width:100%; background: transparent; text-align: center;"></button>
+                        </span>
+
+
+                </form>
+            </div>
+        </div>
+        <div th:each="word:${pack.wordList.words}" >
+            <div th:classappend="${wordStat.last} ? 'last':''"
+                 th:styleappend="${pack.wordList.words.size()==0}?'padding:0;'"
+                 class="words animate__animated">
+                <div id="counter" th:text="${wordStat.index+1}" class="counter"/>
+                <div id="key" class="word animate__animated" th:text="${word.key}"/>
+                <div id="value" class="word animate__animated" th:text="${word.value}"/>
+                <a id="remove" class="remove w-button animate__animated"
+                   th:href="@{/pack/{id}/remove/{index}(id=${pack.id},index=${wordStat.index})}"
+                   th:classappend="${isEditable!=true} ? 'banned'">Remove</a>
+                <span style="padding: 10px" th:classappend="${isEditable!=true} ? 'banned'"
+                      class="remove-icon w-button1 ">
+                <a th:href="@{/pack/{id}/remove/{index}(id=${pack.id},index=${wordStat.index})}"
+                   style="font-size:18px;width:100%; background: transparent; text-align: center; color: white"
+                   class="fas fa-trash-alt"></a>
+            </span>
+            </div>
+        </div>
     </div>
 
-
-    <div th:insert="view-pack::wordlist"/>
 </div>
 
-
-
-<!--    <form class="pack-container-general-content" th:action="@{/pack/{id}/edit(id=${pack.id})}" method="post">-->
-<!--        <div class="pack-general-editable">-->
-<!--            <div class="pack-general-content">-->
-<!--                <input type="text" th:value="${pack.name}" placeholder="Name" name="name"/>-->
-<!--                <br/>-->
-<!--                <textarea name="description" th:text="${pack.description} " placeholder="Description"/>-->
-<!--            </div>-->
-<!--            <div class="pack-logo-edit"><button type="submit" name="save_general" class="fa fa-check-circle-o" style="font-size:22px;color: black; text-decoration: none;"></button></div>-->
-<!--            <div class="pack-type">-->
-<!--                <div class="box">-->
-<!--                    <select name="type" id="secondLn">-->
-<!--                        <option th:selected="${pack.type == 'public'}? 'selected'" value="public">public </option>-->
-<!--                        <option th:selected="${pack.type == 'private'}? 'selected'" value="private">private</option>-->
-<!--                    </select>-->
-<!--                </div>-->
-
-<!--            </div>-->
-<!--            <p class="pack-type-down-logo"></p>-->
-<!--        </div>-->
-<!--    </form>-->
-</div>
 </body>
