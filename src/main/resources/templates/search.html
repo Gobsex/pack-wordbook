@@ -3,7 +3,7 @@
 <head>
     <title>Home</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <th:block th:insert="re-index::metadata"/>
+    <th:block th:insert="index::metadata"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 </head>
@@ -22,7 +22,7 @@
     });
 
 </script>
-    <div th:insert="re-index::header"/>
+    <div th:insert="index::header"/>
     <div class="section animate__animated">
         <h5 th:if="${packs.size()==0}">no packs</h5>
 
@@ -58,7 +58,7 @@
                 <div class="button-container animate__animated">
                     <a class="w-button like-hidden" id="like-hidden" th:classappend="${pack.favorite} ? liked-button" th:text="${pack.favorite} ? 'Liked':'Like'"
                        th:href="${pack.favorite} ? @{/pack/{id}/fromFavorites(id=${pack.id})}:@{/pack/{id}/toFavorites(id=${pack.id})}"/>
-                    <a th:href="@{/pack/{id}/delete(id=${pack.id})}" class="delete w-button">Delete</a>
+                    <a th:classappend="${pack.isEditable()!=true}?'banned'" th:href="@{/pack/{id}/delete(id=${pack.id})}" class="delete w-button">Delete</a>
                     <a th:href="@{/pack/{id}/train(id=${pack.id})}" class="train w-button">Train</a>
                     <a th:href="@{/pack/{id}(id=${pack.id})}" class="view w-button">View</a>
                 </div>

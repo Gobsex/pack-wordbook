@@ -18,6 +18,4 @@ public class HomeController {
         model.addAttribute("isHome",true);
         return "home";
     }
-
-
 }

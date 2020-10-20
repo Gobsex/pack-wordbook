@@ -17,8 +17,8 @@
 <!--            new WOW().init();-->
 <!--        </script>-->
         <meta content="width=device-width, initial-scale=1" name="viewport">
-        <link th:fragment="style" rel="stylesheet" type="text/css" href="../static/css/new.css"
-              th:href="@{/css/new.css}">
+        <link th:fragment="style" rel="stylesheet" type="text/css" href="../static/css/style.css"
+              th:href="@{/css/style.css}">
 
 
         <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=5edf88c90da8305f74cd8753"
@@ -65,7 +65,6 @@
                         src="https://uploads-ssl.webflow.com/5edf88c90da8305f74cd8753/5edf88d6d5a75861d5e75e37_menu-icon.png"
                         width="22" alt="" class="menu-icon"></div>
             </div>
-            <!--/*@thymesVar id="isHome" type="aj"*/-->
             <a th:href="${isHome}? '/login':'/logout'"  th:text="${isHome}? 'login':'logout'"class="button cc-contact-us w-inline-block"/>
         </div>
     </div>

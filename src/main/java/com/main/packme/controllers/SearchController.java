@@ -23,7 +23,7 @@ public class SearchController {
     Translate translate;
     @GetMapping("/search")
     public String getAllPublicPacks(Authentication auth,Model model){
-        List<Pack> packs = userService.loadFavorite(auth.getName(), packService.findAllPublicPacks());
+        List<Pack> packs = userService.loadPack(auth.getName(), packService.findAllPublicPacks());
 
         model.addAttribute("packs", packs);
         return "search";

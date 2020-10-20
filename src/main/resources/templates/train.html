@@ -3,19 +3,18 @@
 <head>
     <title>Home</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <th:block th:insert="re-index::metadata"/>
+    <th:block th:insert="index::metadata"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://kit.fontawesome.com/c0c3d5a6d0.js" crossorigin="anonymous"></script>
-    <!--    <script src="../js/jquery-3.5.1.min.js"></script>-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
 
 </head>
 <body>
-<div th:insert="re-index::header"/>
+<div th:insert="index::header" class="animate__animated animate__fadeIn"/>
 <div class="section">
 
-    <div id="mode" class="mode-container">
+    <div id="mode" class="mode-container animate__animated animate__fadeIn">
         <div class="text-block-13">Train mode</div>
         <div id="default" th:text="${pack.first_ln}+'->'+${pack.second_ln}" class="mode"/>
         <div id="backward" th:text="${pack.second_ln}+'->'+${pack.first_ln}" class="mode"/>
@@ -23,19 +22,12 @@
     </div>
 
 
-    <!--    <div id="mode">-->
-<!--        <div class="mode" id="default" th:text="${pack.first_ln}+'->'+${pack.second_ln}"/>-->
-<!--        <div class="mode" id="backward" th:text="${pack.second_ln}+'->'+${pack.first_ln}"/>-->
-<!--        <div class="mode" id="random" th:text="Random"/>-->
-
-
-<!--    </div>-->
 
 
 
 
 
-    <div id="train" class="hidden">
+    <div id="train" class="hidden animate__animated ">
 
         <div class="div-block-28">
             <div id="timer" class="div-block-29">00:00</div>
@@ -109,7 +101,8 @@
         $('#default').on('click',function (){
             defaultM = true;
             $('#mode').toggleClass('hidden');
-            $('#train').toggleClass('hidden');
+            $('#train').toggleClass('hidden').addClass("animate__fadeIn");
+
             value = getValue(words);
             setInterval(tik, 1000);
         })
@@ -154,7 +147,6 @@
                     $('#wrong').text(wrong);
                 }
             }
-            // $('#word').text((parseInt(getRandomArbitrary(0,10))));
         })
 
         function tik() {
