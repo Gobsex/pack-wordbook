@@ -126,7 +126,7 @@
             if ($('#word-container').attr('class') == 'div-block-25 incorrect') {
                 clear();
             } else {
-                if ($('#translate').val().toUpperCase() == value.toUpperCase()) {
+                if ($('#translate').val().toUpperCase().trim() == value.toUpperCase()) {
 
                     right++;
                     $('#word-container').addClass('correct');

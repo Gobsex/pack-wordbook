@@ -27,6 +27,8 @@
         <div class="form_group" style="margin-bottom: 10px">
             <input class="form_input" type="password" placeholder="Confirm password" th:field="*{passwordConfirm}"/>
             <p class="form-error" th:if="${passwordError}">Passwords do not match</p>
+            <p class="form-error" th:if="${emptyError}">Empty field</p>
+
         </div>
         <button class="form_button" type="submit" style="width: 140px" value="Sign Up">Sign up</button>
         <div class="form-hits">Already have account?

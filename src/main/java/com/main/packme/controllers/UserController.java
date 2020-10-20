@@ -46,21 +46,28 @@ public class UserController {
 
     @PostMapping("/registration")
     public String addUser(@ModelAttribute("userForm") @Valid User userForm, BindingResult bindingResult, Model model) {
+        userForm.setUsername(userForm.getUsername().trim());
+        if (bindingResult.hasErrors()) {
+
+
+            return "registration";
+        }
         if (!userForm.getPassword().equals(userForm.getPasswordConfirm())){
             model.addAttribute("passwordError", true);
             return "registration";
 
+        }
+        if(userForm.getUsername().equals("")||userForm.getPassword().trim().equals("")){
+            model.addAttribute("emptyError",true);
+            return "registration";
         }
         if (!userService.saveUser(userForm)){
             model.addAttribute("usernameError", true);
             return "registration";
 
         }
-        if (bindingResult.hasErrors()) {
 
 
-            return "registration";
-        }
 
         return "redirect:/login";
     }

@@ -35,16 +35,6 @@ public class PackController {
         return "redirect:/pack/" + id+"/edit";
     }
 
-//    @PostMapping(value = "/add", params = "add_pack")
-//    public String addPack(@Valid @ModelAttribute("packEntity") Pack pack, BindingResult bindingResult, Authentication auth, Model model) {
-//        if (bindingResult.hasErrors()) {
-//            return "add";
-//        }
-//        pack.setWordList(new WordList());
-//        userService.addPack(auth.getName());
-//        System.out.println(pack);
-//        return "redirect:/pack/" + pack.getId() + "edit-general";
-//    }
 
     @GetMapping("/all")
     public String selectFavorite(Authentication auth, ModelMap model) {
@@ -158,7 +148,7 @@ public class PackController {
             wordList = new WordList();
         }
         if(key!=""&&value!="") {
-            wordList.add(new Word(key, value));
+            wordList.add(new Word(key.trim(), value.trim()));
             pack.setWordList(wordList);
             packService.savePack(pack);
         }
