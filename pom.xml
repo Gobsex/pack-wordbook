@@ -13,7 +13,6 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>pack-wordbook</name>
 	<description>Demo project for Spring Boot</description>
-	<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
 
 
 
@@ -30,7 +29,7 @@
 		<dependency>
 			<groupId>com.google.cloud</groupId>
 			<artifactId>google-cloud-translate</artifactId>
-			<version>LATEST</version>
+			<version>1.95.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
