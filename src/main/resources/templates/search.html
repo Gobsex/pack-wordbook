@@ -59,7 +59,7 @@
                     <a class="w-button like-hidden" id="like-hidden" th:classappend="${pack.favorite} ? liked-button" th:text="${pack.favorite} ? 'Liked':'Like'"
                        th:href="${pack.favorite} ? @{/pack/{id}/fromFavorites(id=${pack.id})}:@{/pack/{id}/toFavorites(id=${pack.id})}"/>
                     <a th:classappend="${pack.isEditable()!=true}?'banned'" th:href="@{/pack/{id}/delete(id=${pack.id})}" class="delete w-button">Delete</a>
-                    <a th:href="@{/pack/{id}/train(id=${pack.id})}" class="train w-button">Train</a>
+                    <a th:href="@{/pack/{id}/train(id=${pack.id})}" th:classappend="${pack.wordList.getWords().size()==0}?'banned'" class="train w-button">Train</a>
                     <a th:href="@{/pack/{id}(id=${pack.id})}" class="view w-button">View</a>
                 </div>
             </div>

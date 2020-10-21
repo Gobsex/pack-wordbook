@@ -126,10 +126,11 @@ public class PackController {
                        @Param(value = "secondLn") String secondLn,
                        Authentication auth,
                        ModelMap model) {
-
         if (userService.isEditable(auth.getName(), id)) {
             model.addAttribute("isEditable", true);
-            packService.saveGeneral(id, name, description, type,firstLn,secondLn);
+            if(!name.trim().equals("")){
+                packService.saveGeneral(id, name.trim(), description.trim(), type,firstLn,secondLn);
+            }
         }
         return "redirect:/pack/" + id;
     }
@@ -242,10 +243,15 @@ public class PackController {
 
     @GetMapping("/{id}/train")
     public String train(@PathVariable(value = "id") long id,
-                      Authentication auth,
+                        @RequestHeader(value = "referer", required = false)String referer,
+                        Authentication auth,
                       ModelMap model){
         if (userService.isSelectable(auth.getName(), id)){
-            model.addAttribute("pack",packService.findById(id));
+            Pack byId = packService.findById(id);
+            if(byId.getWordList().getWords().size()==0){
+                return "redirect:"+referer;
+            }
+            model.addAttribute("pack",byId);
         }
         return "train";
     }
